@@ -1,23 +1,23 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableNativeFeedback, View } from "react-native";
 
-export default function CardComponent(props: any) {
+export default function CategoryCardComponent(props: any) {
 
     return (
-        <TouchableOpacity style={styles.button}>
+        <TouchableNativeFeedback style={styles.button} onPress={() => {}}>
             <View style={styles.view}>
                 <Image source={props.picture} style={styles.image} />
                 <Text style={{fontFamily: props.fontFamily}}>{props.name}</Text>
             </View>
-        </TouchableOpacity>
+        </TouchableNativeFeedback>
     );
 }
 
 const styles = StyleSheet.create({
     button: {
-        flexGrow: 1, 
         margin: 4
     },
     view: {
+        flexGrow: 1, 
         alignItems: 'center'
     },
     image: {

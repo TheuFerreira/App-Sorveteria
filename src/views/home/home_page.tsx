@@ -1,8 +1,9 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { FlatList, StatusBar, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import CardComponent from "./components/card_components";
+import { FlatList, StatusBar, Text, TouchableNativeFeedback, View } from "react-native";
+import CategoryCardComponent from "./components/category_card_component";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import ProductCardComponent from "./components/product_card_component";
 
 const numbers = [
     { id: "00", name: "Açaís", picture: require('../../../assets/imgs/acai.png') },
@@ -18,7 +19,8 @@ const products = [
     { id: '2', name: 'Açaí 200ML', price: 13 },
     { id: '3', name: 'Açaí 700ML', price: 17 },
     { id: '4', name: 'Açaí 200ML', price: 13 },
-    { id: '5', name: 'Açaí 700ML', price: 17 }
+    { id: '5', name: 'Açaí 700ML', price: 17 },
+    { id: '6', name: 'Milk Shake 700ML', price: 17 }
 ];
 
 export default function HomePage() {
@@ -48,9 +50,9 @@ export default function HomePage() {
             
             <View style={{padding: 8, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
                 <Text>Barra de Pesquisa</Text>
-                <MaterialCommunityIcons name='magnify' size={26}/>
+                <MaterialCommunityIcons name='magnify' size={30}/>
                 <View style={{marginRight: 12}}/>
-                <MaterialCommunityIcons name='cart' size={26}/>
+                <MaterialCommunityIcons name='cart' size={30}/>
             </View>
 
             <View style={{paddingHorizontal: 8}}>
@@ -61,47 +63,19 @@ export default function HomePage() {
                     keyExtractor={item => item.id}
                     numColumns={3}
                     style={{margin: 8, borderRadius: 8, backgroundColor: 'white', padding: 8}}
-                    renderItem={({item}) => <CardComponent name={item.name} picture={item.picture} fontFamily={'Pulang'}/>}
+                    renderItem={({item}) => <CategoryCardComponent name={item.name} picture={item.picture} fontFamily={'Pulang'}/>}
                 />
             </View>
 
             <View style={{paddingHorizontal: 8}}>
-                <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Produtos</Text>
+                <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Produtos mais vendidos</Text>
 
                 <FlatList
                     data={products}
                     keyExtractor={item => item.id}
                     numColumns={2}
                     style={{margin: 8}}
-                    renderItem={({item}) => {
-                        return (
-                            <TouchableOpacity style={{
-                                margin: 4, 
-                                backgroundColor: 'white', 
-                                minHeight: 120, 
-                                borderRadius: 8, 
-                                elevation: 4, 
-                                shadowColor: '#000', 
-                                flexGrow: 1,
-                                shadowOffset: { 
-                                    width: 0, 
-                                    height: 0 
-                                }, 
-                                shadowOpacity: .3, 
-                                shadowRadius: 0,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                overflow: 'hidden',
-                            }}>
-                                <View style={{flex: 1, backgroundColor: '#ff9934', width: '100%'}}></View>
-                                <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 4}}>
-                                    <Text style={{fontFamily: 'Pulang', fontSize: 16}}>{item.name}</Text>
-                                    <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 12}}>R$ {item.price.toFixed(2).replace('.', ',')}</Text>
-                                </View>
-                            </TouchableOpacity >
-                        );
-                    }}
+                    renderItem={({item}) => <ProductCardComponent name={item.name} price={item.price}/>}
                 />
             </View>
         </View>
