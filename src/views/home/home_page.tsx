@@ -1,6 +1,6 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { FlatList, StatusBar, Text, TouchableNativeFeedback, View } from "react-native";
+import { Dimensions, FlatList, StatusBar, Text, TouchableNativeFeedback, View } from "react-native";
 import CategoryCardComponent from "./components/category_card_component";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProductCardComponent from "./components/product_card_component";
@@ -17,10 +17,11 @@ const numbers = [
 const products = [
     { id: '1', name: 'Açaí 500ML', price: 21.50 },
     { id: '2', name: 'Açaí 200ML', price: 13 },
+    { id: '6', name: 'Milk Shake 700ML', price: 17 },
+    { id: '6', name: 'Milk Shake sabor chocolate 700ML', price: 17 },
     { id: '3', name: 'Açaí 700ML', price: 17 },
     { id: '4', name: 'Açaí 200ML', price: 13 },
     { id: '5', name: 'Açaí 700ML', price: 17 },
-    { id: '6', name: 'Milk Shake 700ML', price: 17 }
 ];
 
 export default function HomePage() {
@@ -43,6 +44,9 @@ export default function HomePage() {
             </View>
         );
     }
+
+    let windowWidth = Dimensions.get('window').width;
+    windowWidth = ((windowWidth - 16 - 16) / 2) - 8;
 
     return (
         <View>
@@ -75,7 +79,7 @@ export default function HomePage() {
                     keyExtractor={item => item.id}
                     numColumns={2}
                     style={{margin: 8}}
-                    renderItem={({item}) => <ProductCardComponent name={item.name} price={item.price}/>}
+                    renderItem={({item}) => <ProductCardComponent name={item.name} price={item.price} maxWidth={windowWidth}/>}
                 />
             </View>
         </View>
