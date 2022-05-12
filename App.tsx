@@ -18,7 +18,7 @@ export default function App() {
           screenOptions={ ({route}) => ({
             headerShown: false,
             tabBarShowLabel: false,
-            tabBarIcon: ({color, size}) => {
+            tabBarIcon: ({focused, color, size}) => {
               const icons : Record<string, string> = {
                 'Home': 'home',
                 'Cart': 'cart',
@@ -31,7 +31,7 @@ export default function App() {
               return (
                 <MaterialCommunityIcons 
                   name={icons[name]} 
-                  color={color} 
+                  color={focused ? '#ff9934' : color} 
                   size={size} />
               );
             },
