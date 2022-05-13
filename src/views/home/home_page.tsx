@@ -1,9 +1,9 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { Dimensions, FlatList, StatusBar, Text, TouchableNativeFeedback, View } from "react-native";
+import { Dimensions, FlatList, StatusBar, Text, TextInput, View } from "react-native";
 import CategoryCardComponent from "./components/category_card_component";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProductCardComponent from "./components/product_card_component";
+import SearchComponent from "./components/search_component";
 
 const numbers = [
     { id: "00", name: "Açaís", picture: require('../../../assets/imgs/acai.png') },
@@ -52,12 +52,7 @@ export default function HomePage() {
         <View>
             <StatusBar/>
             
-            <View style={{padding: 8, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
-                <Text>Barra de Pesquisa</Text>
-                <MaterialCommunityIcons name='magnify' size={30}/>
-                <View style={{marginRight: 12}}/>
-                <MaterialCommunityIcons name='cart' size={30}/>
-            </View>
+            <SearchComponent/>
 
             <View style={{paddingHorizontal: 8}}>
                 <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Categorias</Text>
