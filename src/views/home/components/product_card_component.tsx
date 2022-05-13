@@ -28,7 +28,7 @@ export default function ProductCardComponent(props: any) {
             }}>
                 <View style={{flex: 1, backgroundColor: '#ffc018', width: '100%'}}></View>
                 <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin: 4}}>
-                    <TextTicker duration={4000} easing={Easing.linear} style={{fontFamily: 'Pulang', fontSize: 16}}>{props.name}</TextTicker>
+                    <TextTicker duration={7000} easing={Easing.linear} style={{fontFamily: 'Pulang', fontSize: 16}}>{props.name}</TextTicker>
                     <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 12}}>R$ {props.price.toFixed(2).replace('.', ',')}</Text>
                 </View>
             </View>
