@@ -1,9 +1,11 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { Dimensions, FlatList, ScrollView, StatusBar, Text, TextInput, View } from "react-native";
+import { Dimensions, Easing, FlatList, ScrollView, StatusBar, Text, TextInput, View } from "react-native";
+import TextTicker from "react-native-text-ticker";
 import CategoryCardComponent from "./components/category_card_component";
 import ProductCardComponent from "./components/product_card_component";
 import SearchComponent from "./components/search_component";
+import UserInfoComponent from "./components/user_info_component";
 
 const numbers = [
     { id: "00", name: "Açaís", picture: require('../../../assets/imgs/acai.png') },
@@ -52,6 +54,12 @@ export default function HomePage() {
         <ScrollView>
             <StatusBar/>
             
+            <View style={{margin: 8, display: 'flex', flexDirection: 'row'}}>
+                <UserInfoComponent/>
+
+                <View style={{flex: 1}}></View>
+            </View>
+
             <SearchComponent/>
 
             <View style={{paddingHorizontal: 8}}>
