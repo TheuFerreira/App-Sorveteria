@@ -11,7 +11,7 @@ export default function ProductCardComponent(props: any) {
                 minHeight: 120, 
                 minWidth: props.maxWidth,
                 maxWidth: props.maxWidth,
-                borderRadius: 8, 
+                borderRadius: 16, 
                 elevation: 4, 
                 shadowColor: '#000', 
                 flexGrow: 1,

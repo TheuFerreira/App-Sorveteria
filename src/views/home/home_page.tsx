@@ -66,7 +66,7 @@ export default function HomePage() {
                     data={numbers}
                     keyExtractor={item => item.id}
                     numColumns={3}
-                    style={{margin: 8, borderRadius: 8, backgroundColor: 'white', padding: 8}}
+                    style={{margin: 8, borderRadius: 16, backgroundColor: 'white', padding: 8}}
                     renderItem={({item}) => <CategoryCardComponent name={item.name} picture={item.picture} fontFamily={'Pulang'}/>}
                 />
             </View>
