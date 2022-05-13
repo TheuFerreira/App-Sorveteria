@@ -1,6 +1,6 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { Dimensions, FlatList, StatusBar, Text, TextInput, View } from "react-native";
+import { Dimensions, FlatList, ScrollView, StatusBar, Text, TextInput, View } from "react-native";
 import CategoryCardComponent from "./components/category_card_component";
 import ProductCardComponent from "./components/product_card_component";
 import SearchComponent from "./components/search_component";
@@ -49,7 +49,7 @@ export default function HomePage() {
     windowWidth = ((windowWidth - 16 - 16) / 2) - 8;
 
     return (
-        <View>
+        <ScrollView>
             <StatusBar/>
             
             <SearchComponent/>
@@ -58,6 +58,7 @@ export default function HomePage() {
                 <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Categorias</Text>
 
                 <FlatList
+                    nestedScrollEnabled
                     data={numbers}
                     keyExtractor={item => item.id}
                     numColumns={3}
@@ -70,6 +71,7 @@ export default function HomePage() {
                 <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Produtos mais vendidos</Text>
 
                 <FlatList
+                    nestedScrollEnabled
                     data={products}
                     keyExtractor={item => item.id}
                     numColumns={2}
@@ -77,6 +79,6 @@ export default function HomePage() {
                     renderItem={({item}) => <ProductCardComponent name={item.name} price={item.price} maxWidth={windowWidth}/>}
                 />
             </View>
-        </View>
+        </ScrollView>
     );
 }
