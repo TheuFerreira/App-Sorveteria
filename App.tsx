@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AccountPage from './src/views/account/account_page';
 import HomePage from './src/views/home/home_page';
@@ -10,15 +10,23 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 
+const Theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#FFE6A4'
+  }
+}
+
 export default function App() {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
+      <NavigationContainer theme={Theme}>
         <Tab.Navigator 
           screenOptions={ ({route}) => ({
             headerShown: false,
             tabBarShowLabel: false,
-            tabBarIcon: ({focused, color, size}) => {
+            tabBarIcon: ({focused, size}) => {
               const icons : Record<string, string> = {
                 'Home': 'home',
                 'Cart': 'cart',
@@ -31,7 +39,7 @@ export default function App() {
               return (
                 <MaterialCommunityIcons 
                   name={icons[name]} 
-                  color={focused ? '#ff9934' : color} 
+                  color={focused ? '#d66b00' : '#ff9934'} 
                   size={size} />
               );
             },
