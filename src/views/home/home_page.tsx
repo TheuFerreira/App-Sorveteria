@@ -1,7 +1,7 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { Dimensions, Easing, FlatList, ScrollView, StatusBar, Text, TextInput, View } from "react-native";
-import TextTicker from "react-native-text-ticker";
+import { Dimensions, FlatList, ScrollView, StatusBar, Text, View, VirtualizedList } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import CategoryCardComponent from "./components/category_card_component";
 import ProductCardComponent from "./components/product_card_component";
 import SearchComponent from "./components/search_component";
@@ -28,16 +28,94 @@ const products = [
 
 export default function HomePage() {
 
-    const [loaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
-        loadAsync({
+        loadFonts();
+    }, []);
+
+    const loadFonts = async () => {
+        await loadAsync({
             Pulang: require('../../../assets/fonts/Pulang.ttf'),
             FuturaHandwritten: require('../../../assets/fonts/FuturaHandwritten.ttf'),
-        }).then(() => {
-            setLoaded(true);
         });
-    }, []);
+
+        setLoaded(true);
+
+        console.log(true);
+    }
+
+    if (!loaded) {
+        return (
+            <ScrollView>
+                <Text>Carregando</Text>
+            </ScrollView>
+        );
+    }
+
+    let windowWidth = Dimensions.get('window').width;
+    windowWidth = ((windowWidth - 16 - 16) / 2) - 8;
+
+    return (
+        <FlatList
+            data={products}
+            keyExtractor={item => item.id}
+            numColumns={2}
+            style={{marginHorizontal: 8}}
+            ListHeaderComponent={() => {
+                return (
+                    <View>
+                        <View style={{marginVertical: 8, display: 'flex', flexDirection: 'row'}}>
+                            <UserInfoComponent/>
+
+                            <View style={{flex: 1}}></View>
+                        </View>
+
+                        <SearchComponent/>
+
+                        <View>
+                            <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Categorias</Text>
+
+                            <FlatList
+                                nestedScrollEnabled
+                                data={numbers}
+                                keyExtractor={item => item.id}
+                                numColumns={3}
+                                style={{marginVertical: 8, borderRadius: 16, backgroundColor: 'white', padding: 8}}
+                                renderItem={({item}) => <CategoryCardComponent name={item.name} picture={item.picture} fontFamily={'Pulang'}/>}
+                            />
+                        </View>
+
+                        <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Produtos mais vendidos</Text>
+                    </View>
+                );
+            }}
+            renderItem={({item}) => <ProductCardComponent name={item.name} price={item.price} maxWidth={windowWidth}/>}
+        />
+    );
+
+    return (
+        <View style={{ flex: 1}}>
+
+            <View style={{paddingHorizontal: 8}}>
+                <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Categorias</Text>
+
+                <FlatList
+                    nestedScrollEnabled
+                    data={numbers}
+                    keyExtractor={item => item.id}
+                    numColumns={3}
+                    style={{margin: 8, borderRadius: 16, backgroundColor: 'white', padding: 8}}
+                    renderItem={({item}) => <CategoryCardComponent name={item.name} picture={item.picture} fontFamily={'Pulang'}/>}
+                />
+            </View>
+
+        </View>
+    );
+}
+
+/*
+export default function HomePage() {
 
     if (loaded == false) {
         return (
@@ -52,16 +130,6 @@ export default function HomePage() {
 
     return (
         <ScrollView>
-            <StatusBar/>
-            
-            <View style={{margin: 8, display: 'flex', flexDirection: 'row'}}>
-                <UserInfoComponent/>
-
-                <View style={{flex: 1}}></View>
-            </View>
-
-            <SearchComponent/>
-
             <View style={{paddingHorizontal: 8}}>
                 <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Categorias</Text>
 
@@ -90,3 +158,4 @@ export default function HomePage() {
         </ScrollView>
     );
 }
+*/

@@ -12,7 +12,7 @@ export default function SearchComponent() {
 
 const styles = StyleSheet.create({
     container: {
-        margin: 8, 
+        marginVertical: 8, 
         display: 'flex', 
         flexDirection: 'row', 
         backgroundColor: 'white', 
