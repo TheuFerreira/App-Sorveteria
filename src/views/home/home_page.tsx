@@ -1,7 +1,6 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { Dimensions, FlatList, Image, ScrollView, StatusBar, Text, View, VirtualizedList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Dimensions, FlatList, Image, ScrollView, Text, View } from "react-native";
 import CategoryCardComponent from "./components/category_card_component";
 import ProductCardComponent from "./components/product_card_component";
 import SearchComponent from "./components/search_component";
