@@ -1,6 +1,6 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { Dimensions, FlatList, ScrollView, StatusBar, Text, View, VirtualizedList } from "react-native";
+import { Dimensions, FlatList, Image, ScrollView, StatusBar, Text, View, VirtualizedList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CategoryCardComponent from "./components/category_card_component";
 import ProductCardComponent from "./components/product_card_component";
@@ -41,8 +41,6 @@ export default function HomePage() {
         });
 
         setLoaded(true);
-
-        console.log(true);
     }
 
     if (!loaded) {
@@ -68,7 +66,9 @@ export default function HomePage() {
                         <View style={{marginVertical: 8, display: 'flex', flexDirection: 'row'}}>
                             <UserInfoComponent/>
 
-                            <View style={{flex: 1}}></View>
+                            <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center'}}>
+                                <Image source={require('../../../assets/icons/logo.png')} style={{width: 75, height: 75, resizeMode: 'contain'}}/>
+                            </View>
                         </View>
 
                         <SearchComponent/>
