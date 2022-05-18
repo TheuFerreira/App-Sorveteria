@@ -16,7 +16,7 @@ export default function ItemCardComponent(props: any) {
 
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                         <DefaultButtonComponent icon='minus'/>
-                        <Text style={{marginHorizontal: 8}}>1</Text>
+                        <Text style={{marginHorizontal: 8}}>{data.quantity}</Text>
                         <DefaultButtonComponent icon='plus'/>
                     </View>
                 </View>
