@@ -1,6 +1,6 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { Dimensions, FlatList, Image, ScrollView, Text, View } from "react-native";
+import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StatusBar, Text, View } from "react-native";
 import CategoryCardComponent from "./components/category_card_component";
 import ProductCardComponent from "./components/product_card_component";
 import SearchComponent from "./components/search_component";
@@ -62,6 +62,7 @@ export default function HomePage() {
             ListHeaderComponent={() => {
                 return (
                     <View>
+                        <StatusBar/>
                         <View style={{marginVertical: 8, display: 'flex', flexDirection: 'row'}}>
                             <UserInfoComponent/>
 
@@ -92,69 +93,4 @@ export default function HomePage() {
             renderItem={({item}) => <ProductCardComponent name={item.name} price={item.price} maxWidth={windowWidth}/>}
         />
     );
-
-    return (
-        <View style={{ flex: 1}}>
-
-            <View style={{paddingHorizontal: 8}}>
-                <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Categorias</Text>
-
-                <FlatList
-                    nestedScrollEnabled
-                    data={numbers}
-                    keyExtractor={item => item.id}
-                    numColumns={3}
-                    style={{margin: 8, borderRadius: 16, backgroundColor: 'white', padding: 8}}
-                    renderItem={({item}) => <CategoryCardComponent name={item.name} picture={item.picture} fontFamily={'Pulang'}/>}
-                />
-            </View>
-
-        </View>
-    );
 }
-
-/*
-export default function HomePage() {
-
-    if (loaded == false) {
-        return (
-            <View>
-                <Text>Carregando</Text>
-            </View>
-        );
-    }
-
-    let windowWidth = Dimensions.get('window').width;
-    windowWidth = ((windowWidth - 16 - 16) / 2) - 8;
-
-    return (
-        <ScrollView>
-            <View style={{paddingHorizontal: 8}}>
-                <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Categorias</Text>
-
-                <FlatList
-                    nestedScrollEnabled
-                    data={numbers}
-                    keyExtractor={item => item.id}
-                    numColumns={3}
-                    style={{margin: 8, borderRadius: 16, backgroundColor: 'white', padding: 8}}
-                    renderItem={({item}) => <CategoryCardComponent name={item.name} picture={item.picture} fontFamily={'Pulang'}/>}
-                />
-            </View>
-
-            <View style={{paddingHorizontal: 8}}>
-                <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Produtos mais vendidos</Text>
-
-                <FlatList
-                    nestedScrollEnabled
-                    data={products}
-                    keyExtractor={item => item.id}
-                    numColumns={2}
-                    style={{margin: 8}}
-                    renderItem={({item}) => <ProductCardComponent name={item.name} price={item.price} maxWidth={windowWidth}/>}
-                />
-            </View>
-        </ScrollView>
-    );
-}
-*/
