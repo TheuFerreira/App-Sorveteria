@@ -1,6 +1,8 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { FlatList, ScrollView, Text, View } from "react-native";
+import { FlatList, ScrollView, Text, TouchableNativeFeedback, View } from "react-native";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import ItemCardComponent from "./components/item_cart_component";
 
 const products = [
     { id: '1', name: 'Açaí 500ML', price: 21.50 },
@@ -43,30 +45,18 @@ export default function CartPage() {
             style={{marginHorizontal: 8}}
             ListHeaderComponent={() => {
                 return (
-                    <View>
+                    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 8}}>
                         <Text style={{fontFamily: 'Pulang', fontSize: 24}}>Carrinho</Text>
+
+                        <TouchableNativeFeedback>
+                            <View style={{width: 40, height: 40, borderRadius: 20, borderColor: 'black', borderWidth: 2, backgroundColor: '#FF9934', justifyContent: 'center', alignItems: 'center'}}>
+                                <MaterialCommunityIcons name='plus' size={24}/>
+                            </View>
+                        </TouchableNativeFeedback>
                     </View>
                 );
             }}
-            renderItem={({item}) => {
-                return (
-                    <View style={{marginVertical: 8, backgroundColor: 'white', borderRadius: 16, paddingHorizontal: 12, paddingVertical: 8, display: 'flex', flexDirection: 'row'}}>
-                        <View style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginRight: 8}}>
-                            <View>
-                                <Text style={{fontFamily: 'Pulang', fontSize: 15}}>{item.name}</Text>
-                                <Text style={{fontFamily: 'FuturaHandwritten'}}>Descrição</Text>
-                            </View>
-
-                            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 12}}>R$54,20</Text>
-                                <Text>ícone</Text>
-                            </View>
-                        </View>
-
-                        <View style={{height: 70, backgroundColor: 'red', width: 65}}></View>
-                    </View>
-                );
-            }}
+            renderItem={({item}) => <ItemCardComponent data={item}/>}
         />
     );
 }
