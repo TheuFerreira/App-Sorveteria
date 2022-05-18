@@ -4,7 +4,7 @@ import { FlatList, ScrollView, Text, TouchableNativeFeedback, TouchableWithoutFe
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ItemCardComponent from "./components/item_cart_component";
 
-const products = [
+let _products = [
     { id: '1', name: 'Açaí 500ML', price: 21.50, quantity: 2 },
     { id: '2', name: 'Açaí 200ML', price: 13, quantity: 26 },
     { id: '3', name: 'Açaí 700ML', price: 17, quantity: 3 },
@@ -17,6 +17,8 @@ export default function CartPage() {
 
     const [loaded, setLoaded] = useState(false);
     const [totalValue, setTotalValue] = useState(0);
+    const [products, setProducts] = useState(_products);
+    let tempArr = [...products];
 
     useEffect(() => {
         loadFonts();
@@ -29,6 +31,10 @@ export default function CartPage() {
             total += value;
         }
         setTotalValue(total);
+
+        return () => {
+            products
+        };
     }, [products]);
 
     const loadFonts = async () => {
@@ -48,9 +54,43 @@ export default function CartPage() {
         );
     }
 
+    const minusClick = (id: String) => {
+        for (let i = 0; i < tempArr.length; i++) {
+            const product = tempArr[i];
+            if (product.id !== id) {
+                continue;
+            } 
+
+            product.quantity -= 1;
+            if (product.quantity <= 0) {
+                tempArr.splice(i, 1);
+            } else {
+                tempArr[i] = product;
+            }
+
+            setProducts(tempArr);
+            break;
+        }
+    }
+
+    const plusClick = (id: String) => {
+        for (let i = 0; i < tempArr.length; i++) {
+            const product = tempArr[i];
+            if (product.id !== id) {
+                continue;
+            } 
+
+            product.quantity += 1;
+            tempArr[i] = product;
+            setProducts(tempArr);
+            break;
+        }
+    }
+
     return (
         <FlatList
             data={products}
+            extraData={tempArr}
             keyExtractor={item => item.id}
             style={{marginHorizontal: 8}}
             ListHeaderComponent={() => {
@@ -75,7 +115,7 @@ export default function CartPage() {
                     </TouchableWithoutFeedback>
                 );
             }}
-            renderItem={({item}) => <ItemCardComponent data={item}/>}
+            renderItem={({item}) => <ItemCardComponent data={item} minusClick={(id: string) => minusClick(id)} plusClick={(id: string) => plusClick(id)}/>}
         />
     );
 }
