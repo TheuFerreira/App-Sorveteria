@@ -1,8 +1,8 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { ScrollView, Text, TouchableNativeFeedback, TouchableWithoutFeedback, View } from "react-native";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ScrollView, Text, TouchableNativeFeedback, View } from "react-native";
 import ImageAccountComponent from "./components/image_account_component";
+import OptionButtonComponent from "./components/option_button_component";
 
 let _products = [
     { id: '1', name: 'Açaí 500ML', price: 21.50, quantity: 2 },
@@ -54,39 +54,6 @@ export default function AccountPage() {
         );
     }
 
-    const minusClick = (id: String) => {
-        for (let i = 0; i < tempArr.length; i++) {
-            const product = tempArr[i];
-            if (product.id !== id) {
-                continue;
-            } 
-
-            product.quantity -= 1;
-            if (product.quantity <= 0) {
-                tempArr.splice(i, 1);
-            } else {
-                tempArr[i] = product;
-            }
-
-            setProducts(tempArr);
-            break;
-        }
-    }
-
-    const plusClick = (id: String) => {
-        for (let i = 0; i < tempArr.length; i++) {
-            const product = tempArr[i];
-            if (product.id !== id) {
-                continue;
-            } 
-
-            product.quantity += 1;
-            tempArr[i] = product;
-            setProducts(tempArr);
-            break;
-        }
-    }
-
     return (
         <ScrollView style={{flex: 1}}>
             <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 8, marginHorizontal: 8}}>
@@ -99,17 +66,36 @@ export default function AccountPage() {
                     <View style={{height: 50, backgroundColor: 'white', borderTopEndRadius: 16, borderTopStartRadius: 16, }}></View>
                 </View>
 
-                <View style={{position: 'absolute', justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{position: 'absolute', left: 0, right: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                     <ImageAccountComponent/>
                 </View>
             </View>
 
-            <View style={{backgroundColor: 'white', padding: 8, display: 'flex', flex: 1}}>
-                <TouchableWithoutFeedback>
+            <View style={{backgroundColor: 'white', padding: 8, display: 'flex'}}>
+
+                <View style={{alignItems: 'center', paddingBottom: 24}}>
+                    <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 22}}>Paulo Puto</Text>
+                </View>
+
+                <OptionButtonComponent content='Alterar nome de usuário'/>
+
+                <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
+
+                <OptionButtonComponent content='Alterar senha'/>
+
+                <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
+
+                <OptionButtonComponent content='Alterar endereço'/>
+
+                <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
+
+                <OptionButtonComponent content='Alterar telefone'/>
+
+                <TouchableNativeFeedback>
                     <View style={{flexDirection: 'row', justifyContent: 'center', paddingVertical: 16, marginVertical: 8, borderWidth: 2, borderRadius: 16, borderColor: 'black', backgroundColor: '#FF9934'}}>
                         <Text style={{fontWeight: 'bold', fontSize: 16}}>Sair</Text>
                     </View>
-                </TouchableWithoutFeedback>
+                </TouchableNativeFeedback>
             </View>
         </ScrollView>
     );
