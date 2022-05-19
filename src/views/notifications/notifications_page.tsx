@@ -1,6 +1,6 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { FlatList, ScrollView, Text, TouchableNativeFeedback, TouchableWithoutFeedback, View } from "react-native";
+import { FlatList, ScrollView, Text, View } from "react-native";
 import ItemNotificationComponent from "./components/item_notification_component";
 
 let _notifications = [
