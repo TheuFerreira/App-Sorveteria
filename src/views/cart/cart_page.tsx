@@ -9,8 +9,6 @@ let _products = [
     { id: '2', name: 'Açaí 200ML', price: 13, quantity: 26 },
     { id: '3', name: 'Açaí 700ML', price: 17, quantity: 3 },
     { id: '4', name: 'Açaí 200ML', price: 13, quantity: 5 },
-    { id: '5', name: 'Açaí 700ML', price: 17, quantity: 1 },
-    { id: '6', name: 'Milk Shake 700ML', price: 17, quantity: 8 },
 ];
 
 export default function CartPage() {
@@ -108,11 +106,18 @@ export default function CartPage() {
             }}
             ListFooterComponent={() => {
                 return (
-                    <TouchableWithoutFeedback>
-                        <View style={{flexDirection: 'row', justifyContent: 'center', paddingVertical: 16, marginVertical: 8, borderWidth: 2, borderRadius: 16, borderColor: 'black', backgroundColor: '#B3C631'}}>
-                            <Text style={{fontWeight: 'bold', fontSize: 16}}>Finalizar pedido no valor de R${totalValue.toFixed(2)}</Text>
+                    <View>
+                        <View style={{flexDirection: 'row-reverse', marginVertical: 4}}>
+                            <Text style={{fontWeight: 'bold', fontSize: 16, fontFamily: 'Pulang', color: '#B3C631'}}>R$ {totalValue.toFixed(2)}</Text>
+                            <Text style={{fontWeight: 'bold', fontSize: 16, fontFamily: 'Pulang'}}>Valor total: </Text>
                         </View>
-                    </TouchableWithoutFeedback>
+
+                        <TouchableNativeFeedback>
+                            <View style={{flexDirection: 'row', justifyContent: 'center', paddingVertical: 12, marginVertical: 8, borderWidth: 2, borderRadius: 16, borderColor: 'black', backgroundColor: '#B3C631'}}>
+                                <Text style={{fontWeight: 'bold', fontSize: 20}}>Finalizar pedido</Text>
+                            </View>
+                        </TouchableNativeFeedback>
+                    </View>
                 );
             }}
             renderItem={({item}) => <ItemCardComponent data={item} minusClick={(id: string) => minusClick(id)} plusClick={(id: string) => plusClick(id)}/>}
