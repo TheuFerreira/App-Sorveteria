@@ -9,6 +9,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ProductsPage from './src/views/products/products_page';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginPage from './src/views/login/login_page';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -36,6 +37,21 @@ const HomeNavigator = () => {
 }
 
 export default function App() {
+
+  return (
+    <SafeAreaProvider>
+      <NavigationContainer theme={Theme}>
+        <Stack.Navigator 
+          initialRouteName='Login'
+          screenOptions={{
+            headerShown: false,
+          }}>
+          <Stack.Screen name='Login' component={LoginPage}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
+  );
+
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={Theme}>
