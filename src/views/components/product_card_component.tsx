@@ -6,7 +6,8 @@ export default function ProductCardComponent(props: any) {
     return (
         <TouchableNativeFeedback onPress={() => {}}>
             <View style={{
-                margin: 4, 
+                margin: 4,
+                marginVertical: 8, 
                 backgroundColor: 'white', 
                 minHeight: 120, 
                 minWidth: props.maxWidth,

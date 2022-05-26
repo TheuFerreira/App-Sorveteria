@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, TouchableNativeFeedback, View } from "react-na
 export default function CategoryCardComponent(props: any) {
 
     return (
-        <TouchableNativeFeedback style={styles.button} onPress={() => {}}>
+        <TouchableNativeFeedback style={styles.button} onPress={() => props.onClick()}>
             <View style={styles.view}>
                 <Image source={props.picture} style={styles.image} />
                 <Text style={{fontFamily: props.fontFamily}}>{props.name}</Text>

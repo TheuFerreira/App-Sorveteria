@@ -1,7 +1,6 @@
 import { Easing, StyleSheet, Text, View } from "react-native";
 import TextTicker from "react-native-text-ticker";
 
-
 export default function UserInfoComponent() {
     return (
         <View style={styles.container}>

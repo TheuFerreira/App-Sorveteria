@@ -3,17 +3,7 @@ import { useEffect, useState } from "react";
 import { Dimensions, FlatList, Image, ScrollView, StatusBar, Text, View } from "react-native";
 import SearchComponent from "../components/search_component";
 import UserInfoComponent from "../components/user_info_component";
-import CategoryCardComponent from "./components/category_card_component";
 import ProductCardComponent from "../components/product_card_component";
-
-const numbers = [
-    { id: "00", name: "Açaís", picture: require('../../../assets/imgs/acai.png') },
-    { id: "01", name: "Sorvetes", picture: require('../../../assets/imgs/sorvetes.png') },
-    { id: "02", name: "Raspadinhas", picture: require('../../../assets/imgs/raspadinhas.jpg') },
-    { id: "03", name: "Sucos", picture: require('../../../assets/imgs/sucos.png') },
-    { id: "04", name: "Potes", picture: require('../../../assets/imgs/potes.png') },
-    { id: "05", name: "Milk Shakes", picture: require('../../../assets/imgs/milk_shake.webp') }
-];
 
 const products = [
     { id: '1', name: 'Açaí 500ML', price: 21.50 },
@@ -25,7 +15,7 @@ const products = [
     { id: '5', name: 'Açaí 700ML', price: 17 },
 ];
 
-export default function HomePage({navigation}: any) {
+export default function ProductsPage({navigation}: any) {
 
     const [loaded, setLoaded] = useState(false);
 
@@ -73,22 +63,7 @@ export default function HomePage({navigation}: any) {
 
                         <SearchComponent/>
 
-                        <View>
-                            <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Categorias</Text>
-
-                            <FlatList
-                                nestedScrollEnabled
-                                data={numbers}
-                                keyExtractor={item => item.id}
-                                numColumns={3}
-                                style={{marginVertical: 8, borderRadius: 16, backgroundColor: 'white', padding: 8}}
-                                renderItem={({item}) => 
-                                    <CategoryCardComponent name={item.name} picture={item.picture} fontFamily={'Pulang'} onClick={() => navigation.navigate('Products')}/>
-                                }
-                            />
-                        </View>
-
-                        <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Produtos mais vendidos</Text>
+                        <Text style={{marginVertical: 8, fontSize: 24, fontFamily: 'Pulang'}}>Sorvetes:</Text>
                     </View>
                 );
             }}

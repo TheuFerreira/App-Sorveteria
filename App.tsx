@@ -7,8 +7,11 @@ import NotificationsPage from './src/views/notifications/notifications_page';
 import CartPage from './src/views/cart/cart_page';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import ProductsPage from './src/views/products/products_page';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 const Theme = {
   ...DefaultTheme,
@@ -16,6 +19,20 @@ const Theme = {
     ...DefaultTheme.colors,
     background: '#FFE6A4'
   }
+}
+
+const HomeNavigator = () => {
+  return (
+    <Stack.Navigator 
+      initialRouteName='Initial'
+      screenOptions={{
+        headerShown: false,
+      }}>
+        
+      <Stack.Screen name='Initial' component={HomePage}/>
+      <Stack.Screen name='Products' component={ProductsPage}/>
+    </Stack.Navigator>
+  );
 }
 
 export default function App() {
@@ -44,7 +61,7 @@ export default function App() {
               );
             },
           })}>
-          <Tab.Screen name="Home" component={HomePage} />
+          <Tab.Screen name="Home" component={HomeNavigator} />
           <Tab.Screen name='Cart' component={CartPage}/>
           <Tab.Screen name='Notifications' component={NotificationsPage} />
           <Tab.Screen name="Profile" component={AccountPage} />
