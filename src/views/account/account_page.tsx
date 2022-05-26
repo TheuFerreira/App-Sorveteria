@@ -1,6 +1,6 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { ScrollView, Text, TouchableNativeFeedback, View } from "react-native";
+import { Image, ScrollView, Text, TouchableNativeFeedback, View } from "react-native";
 import ImageAccountComponent from "./components/image_account_component";
 import OptionButtonComponent from "./components/option_button_component";
 
@@ -55,7 +55,7 @@ export default function AccountPage() {
     }
 
     return (
-        <ScrollView style={{flex: 1}}>
+        <ScrollView style={{flex: 1}} contentContainerStyle={{flex: 1}}>
             <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 8, marginHorizontal: 8}}>
                 <Text style={{fontFamily: 'Pulang', fontSize: 24}}>Perfil</Text>
             </View>
@@ -71,31 +71,46 @@ export default function AccountPage() {
                 </View>
             </View>
 
-            <View style={{backgroundColor: 'white', padding: 8, display: 'flex'}}>
+            <View style={{backgroundColor: 'white', padding: 8, display: 'flex', flex: 1, justifyContent: 'space-between'}}>
 
                 <View style={{alignItems: 'center', paddingBottom: 24}}>
                     <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 22}}>Paulo Puto</Text>
                 </View>
 
-                <OptionButtonComponent content='Alterar nome de usuário'/>
+                <View>
+                    <OptionButtonComponent content='Alterar nome de usuário'/>
 
-                <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
+                    <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
 
-                <OptionButtonComponent content='Alterar senha'/>
+                    <OptionButtonComponent content='Alterar senha'/>
 
-                <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
+                    <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
 
-                <OptionButtonComponent content='Alterar endereço'/>
+                    <OptionButtonComponent content='Alterar endereço'/>
 
-                <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
+                    <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
 
-                <OptionButtonComponent content='Alterar telefone'/>
+                    <OptionButtonComponent content='Alterar telefone'/>
+                </View>
 
-                <TouchableNativeFeedback>
-                    <View style={{flexDirection: 'row', justifyContent: 'center', paddingVertical: 16, marginVertical: 8, borderWidth: 2, borderRadius: 16, borderColor: 'black', backgroundColor: '#FF9934'}}>
-                        <Text style={{fontWeight: 'bold', fontSize: 16}}>Sair</Text>
+                <View>
+
+                    <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+
+                        <Image source={require('../../../assets/imgs/others/vaca.png')} width={20} height={20} style={{height: 20, width: 20}}/>
+
+                        <View style={{marginHorizontal: 8}}>
+                            <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 10}}>Developed by Ferreira</Text>
+                            <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 10}}>Designed by Alessandra</Text>
+                        </View>
                     </View>
-                </TouchableNativeFeedback>
+
+                    <TouchableNativeFeedback>
+                        <View style={{flexDirection: 'row', justifyContent: 'center', paddingVertical: 12, marginVertical: 8, borderWidth: 2, borderRadius: 16, borderColor: 'black', backgroundColor: '#FF9934'}}>
+                            <Text style={{fontWeight: 'bold', fontSize: 20}}>Sair</Text>
+                        </View>
+                    </TouchableNativeFeedback>
+                </View>
             </View>
         </ScrollView>
     );
