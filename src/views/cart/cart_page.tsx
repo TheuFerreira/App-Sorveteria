@@ -1,7 +1,8 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { FlatList, ScrollView, Text, TouchableNativeFeedback, TouchableWithoutFeedback, View } from "react-native";
+import { FlatList, ScrollView, Text, TouchableNativeFeedback, View } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import ButtonComponent from "../components/button_component";
 import ItemCardComponent from "./components/item_cart_component";
 
 let _products = [
@@ -112,11 +113,7 @@ export default function CartPage() {
                             <Text style={{fontWeight: 'bold', fontSize: 16, fontFamily: 'Pulang'}}>Valor total: </Text>
                         </View>
 
-                        <TouchableNativeFeedback>
-                            <View style={{flexDirection: 'row', justifyContent: 'center', paddingVertical: 12, marginVertical: 8, borderWidth: 2, borderRadius: 16, borderColor: 'black', backgroundColor: '#B3C631'}}>
-                                <Text style={{fontWeight: 'bold', fontSize: 20}}>Finalizar pedido</Text>
-                            </View>
-                        </TouchableNativeFeedback>
+                        <ButtonComponent text='Finalizar pedido' backgroundColor='#B3C631'/>
                     </View>
                 );
             }}

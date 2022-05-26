@@ -1,6 +1,7 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { Image, ScrollView, Text, TouchableNativeFeedback, View } from "react-native";
+import { Image, ScrollView, Text, View } from "react-native";
+import ButtonComponent from "../components/button_component";
 import ImageAccountComponent from "./components/image_account_component";
 import OptionButtonComponent from "./components/option_button_component";
 
@@ -105,11 +106,7 @@ export default function AccountPage() {
                         </View>
                     </View>
 
-                    <TouchableNativeFeedback>
-                        <View style={{flexDirection: 'row', justifyContent: 'center', paddingVertical: 12, marginVertical: 8, borderWidth: 2, borderRadius: 16, borderColor: 'black', backgroundColor: '#FF9934'}}>
-                            <Text style={{fontWeight: 'bold', fontSize: 20}}>Sair</Text>
-                        </View>
-                    </TouchableNativeFeedback>
+                    <ButtonComponent text='Sair' backgroundColor='#FF9934'/>
                 </View>
             </View>
         </ScrollView>
