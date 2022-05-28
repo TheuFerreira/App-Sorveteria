@@ -1,20 +1,47 @@
-import { Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { loadAsync } from "expo-font";
+import { useEffect, useState } from "react";
+import { Image, ScrollView, StatusBar, Text, View } from "react-native";
 import ButtonComponent from "../components/button_component";
 import TextInputComponent from "./components/text_input_component";
 
 export default function LoginPage() {
+
+    const [loaded, setLoaded] = useState(false);
+
+    useEffect(() => {
+        loadFonts();
+    }, []);
+
+    const loadFonts = async () => {
+        await loadAsync({
+            Pulang: require('../../../assets/fonts/Pulang.ttf'),
+            FuturaHandwritten: require('../../../assets/fonts/FuturaHandwritten.ttf'),
+        });
+
+        setLoaded(true);
+    }
+
+    if (!loaded) {
+        return (
+            <ScrollView>
+                <Text>Carregando</Text>
+            </ScrollView>
+        );
+    }
+
     return (
         <ScrollView style={{
             margin: 16,
         }}>
+            <StatusBar/>
 
             <View style={{flexDirection: 'row'}}>
                 <Image source={require('../../../assets/icons/logo.png')} width={50} height={50} style={{width: 110, height: 150}}/>
 
-                <View style={{justifyContent: 'center', marginLeft: 8}}>
-                    <Text>Para você engordar direitinho</Text>
-                    <Text style={{fontWeight: 'bold', fontSize: 24}}>FERREIRINHA SORVETES</Text>
-                    <Text>Rua dos Cornos, n. 22, Centro, Peçanha</Text>
+                <View style={{justifyContent: 'center', marginLeft: 8, flexShrink: 1}}>
+                    <Text style={{textAlign: 'justify', fontFamily: 'FuturaHandwritten'}}>Para você engordar direitinho</Text>
+                    <Text style={{fontSize: 22, textAlign: 'justify', fontFamily: 'Pulang'}}>FERREIRINHA SORVETES</Text>
+                    <Text style={{textAlign: 'justify', fontFamily: 'FuturaHandwritten'}}>Rua dos Cornos, n. 22, Centro, Peçanha</Text>
                 </View>
             </View>
 
@@ -41,20 +68,3 @@ export default function LoginPage() {
         </ScrollView>
     );
 }
-
-const styles = StyleSheet.create({
-    textHeader: {
-        fontSize: 16, 
-        fontWeight: 'bold',
-        marginTop: 8
-    },
-    textInput: {
-        backgroundColor: 'white',
-        marginVertical: 8,
-        marginHorizontal: 8,
-        borderRadius: 16,
-        fontSize: 16,
-        paddingVertical: 14,
-        paddingHorizontal: 16
-    }
-});
