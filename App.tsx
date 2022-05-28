@@ -10,6 +10,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ProductsPage from './src/views/products/products_page';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginPage from './src/views/login/login_page';
+import RegisterPage from './src/views/register/register_page';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -47,6 +48,7 @@ export default function App() {
             headerShown: false,
           }}>
           <Stack.Screen name='Login' component={LoginPage}/>
+          <Stack.Screen name='Register' component={RegisterPage}/>
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

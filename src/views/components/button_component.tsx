@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableNativeFeedback, View } from "react-native";
 
 export default function ButtonComponent(props: any) {
     return (
-        <TouchableNativeFeedback>
+        <TouchableNativeFeedback onPress={props.onClick}>
             <View style={[styles.container, {backgroundColor: props.backgroundColor}]}>
                 <Text style={styles.text}>{props.text}</Text>
             </View>

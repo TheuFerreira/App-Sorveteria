@@ -2,9 +2,9 @@ import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
 import { Image, ScrollView, StatusBar, Text, View } from "react-native";
 import ButtonComponent from "../components/button_component";
-import TextInputComponent from "./components/text_input_component";
+import TextInputComponent from "../components/text_input_component";
 
-export default function LoginPage() {
+export default function LoginPage({navigation}: any) {
 
     const [loaded, setLoaded] = useState(false);
 
@@ -27,6 +27,10 @@ export default function LoginPage() {
                 <Text>Carregando</Text>
             </ScrollView>
         );
+    }
+
+    const onRegister = () => {
+        navigation.navigate('Register');
     }
 
     return (
@@ -63,7 +67,7 @@ export default function LoginPage() {
                     <View style={{height: 1, flex: 1, backgroundColor: '#00000063'}}></View>
                 </View>
 
-                <ButtonComponent text='Cadastrar' backgroundColor='#FF9934'/>
+                <ButtonComponent text='Cadastrar' backgroundColor='#FF9934' onClick={onRegister}/>
             </View>
         </ScrollView>
     );
