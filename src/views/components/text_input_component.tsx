@@ -4,7 +4,10 @@ export default function TextInputComponent(props: any) {
     return (
         <View>
             <Text style={styles.textHeader}>{props.header}</Text>
-            <TextInput placeholder={props.placeholder} style={styles.textInput}/>
+            <TextInput 
+                placeholder={props.placeholder} 
+                style={styles.textInput} 
+                onChangeText={value => props.onChangeText(value)}/>
         </View>
     );
 }

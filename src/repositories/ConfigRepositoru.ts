@@ -1,0 +1,1 @@
+export const urlAPI = 'http://10.50.4.127';
