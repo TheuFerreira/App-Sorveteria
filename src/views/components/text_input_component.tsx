@@ -8,6 +8,8 @@ export default function TextInputComponent(props: any) {
                 placeholder={props.placeholder} 
                 style={styles.textInput} 
                 onChangeText={value => props.onChangeText(value)}/>
+
+            { props.errorMessage !== undefined && <Text style={styles.textError}>{props.errorMessage}</Text>}
         </View>
     );
 }
@@ -26,5 +28,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         paddingVertical: 14,
         paddingHorizontal: 16
+    },
+    textError: {
+        color: 'red',
+        fontSize: 13
     }
 });

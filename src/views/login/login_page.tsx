@@ -38,6 +38,7 @@ export default function LoginPage({navigation}: any) {
     }
 
     const onLogin = (data: any) => {
+        console.log(data);
         new UserRepository().getUser(data.userName, data.password).then((response) => {
             console.log(response);
         });
