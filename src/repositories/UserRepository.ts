@@ -1,6 +1,6 @@
 import LoginResponse from "../models/responses/LoginResponse";
 import RegisterResponse from "../models/responses/RegisterResponse";
-import { urlAPI } from "./ConfigRepositoru";
+import { urlAPI } from "./ConfigRepository";
 
 export default class UserRepository {
 
