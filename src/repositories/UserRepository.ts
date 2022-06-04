@@ -45,10 +45,12 @@ export default class UserRepository {
             body: JSON.stringify(body)
         }).then(async (response) => {
             const json = await response.json();
+            console.log(json);
 
             const loginResponse = new LoginResponse();
             loginResponse.idUser = json.idUser;
             loginResponse.name = json.name;
+            loginResponse.message = json.message;
             return loginResponse;
         }).catch(() => {
             const loginResponse = new LoginResponse();
