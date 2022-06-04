@@ -9,22 +9,15 @@ import Context from "../../services/ContextService";
 import CategoryRepository from "../../repositories/CategoryRepository";
 import CategoryResponse from "../../models/responses/CategoryResponse";
 import LoadingComponent from "../components/loading_component";
-
-const products = [
-    { id: '1', name: 'Açaí 500ML', price: 21.50 },
-    { id: '2', name: 'Açaí 200ML', price: 13 },
-    { id: '6', name: 'Milk Shake 700ML', price: 17 },
-    { id: '6', name: 'Milk Shake sabor chocolate 700ML', price: 17 },
-    { id: '3', name: 'Açaí 700ML', price: 17 },
-    { id: '4', name: 'Açaí 200ML', price: 13 },
-    { id: '5', name: 'Açaí 700ML', price: 17 },
-];
+import ProductResponse from "../../models/responses/ProductResponse";
+import ProductRepository from "../../repositories/ProductRepository";
 
 export default function HomePage({navigation}: any) {
 
     const [usuario, _]:any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
     const [categories, setCategories] = useState(Array<CategoryResponse>());
+    const [mostSelled, setMostSelled] = useState(Array<ProductResponse>());
 
     useEffect(() => {
         loadFonts();
@@ -40,6 +33,8 @@ export default function HomePage({navigation}: any) {
 
         await loadCategories();
 
+        await loadMostSelled();
+
         setLoaded(true);
     }
 
@@ -48,6 +43,13 @@ export default function HomePage({navigation}: any) {
         const _categories = await categoryRepository.getAll();
 
         setCategories(_categories);
+    }
+
+    const loadMostSelled = async () => {
+        const productRepository = new ProductRepository();
+        const _mostSelled = await productRepository.getMostSelled(10);
+
+        setMostSelled(_mostSelled);
     }
 
     if (!loaded) {
@@ -59,8 +61,8 @@ export default function HomePage({navigation}: any) {
 
     return (
         <FlatList
-            data={products}
-            keyExtractor={item => item.id}
+            data={mostSelled}
+            keyExtractor={item => item.idProduct}
             numColumns={2}
             style={{marginHorizontal: 8}}
             ListHeaderComponent={() => {
@@ -94,7 +96,6 @@ export default function HomePage({navigation}: any) {
                                         fontFamily={'Pulang'} 
                                         onClick={(id: any) => navigation.navigate('Products', {
                                             idCategory: id,
-                                            idProduct: null,
                                         })}/>
                                 }
                             />
@@ -104,7 +105,12 @@ export default function HomePage({navigation}: any) {
                     </View>
                 );
             }}
-            renderItem={({item}) => <ProductCardComponent name={item.name} price={item.price} maxWidth={windowWidth}/>}
+            renderItem={({item}) => 
+                <ProductCardComponent 
+                    name={item.title} 
+                    price={item.price}
+                    img={item.img} 
+                    maxWidth={windowWidth}/>}
         />
     );
 }
