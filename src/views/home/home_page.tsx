@@ -1,6 +1,6 @@
 import { loadAsync } from "expo-font";
 import { useContext, useEffect, useState } from "react";
-import { Dimensions, FlatList, Image, ScrollView, StatusBar, Text, View } from "react-native";
+import { Dimensions, FlatList, Image, StatusBar, Text, View } from "react-native";
 import SearchComponent from "../components/search_component";
 import UserInfoComponent from "../components/user_info_component";
 import CategoryCardComponent from "./components/category_card_component";
@@ -8,6 +8,7 @@ import ProductCardComponent from "../components/product_card_component";
 import Context from "../../services/ContextService";
 import CategoryRepository from "../../repositories/CategoryRepository";
 import CategoryResponse from "../../models/responses/CategoryResponse";
+import LoadingComponent from "../components/loading_component";
 
 const products = [
     { id: '1', name: 'Açaí 500ML', price: 21.50 },
@@ -50,11 +51,7 @@ export default function HomePage({navigation}: any) {
     }
 
     if (!loaded) {
-        return (
-            <ScrollView>
-                <Text>Carregando</Text>
-            </ScrollView>
-        );
+        return <LoadingComponent/>;
     }
 
     let windowWidth = Dimensions.get('window').width;

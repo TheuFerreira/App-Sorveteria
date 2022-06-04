@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import Context from "../../services/ContextService";
 import ButtonComponent from "../components/button_component";
+import LoadingComponent from "../components/loading_component";
 import ImageAccountComponent from "./components/image_account_component";
 import OptionButtonComponent from "./components/option_button_component";
 
@@ -25,11 +26,7 @@ export default function AccountPage() {
     }
 
     if (!loaded) {
-        return (
-            <ScrollView>
-                <Text>Carregando</Text>
-            </ScrollView>
-        );
+        return <LoadingComponent/>;
     }
 
     return (

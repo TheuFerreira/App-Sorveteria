@@ -1,12 +1,13 @@
 import { loadAsync } from "expo-font";
 import { useContext, useEffect, useState } from "react";
-import { Dimensions, FlatList, Image, ScrollView, StatusBar, Text, View } from "react-native";
+import { Dimensions, FlatList, Image, StatusBar, Text, View } from "react-native";
 import SearchComponent from "../components/search_component";
 import UserInfoComponent from "../components/user_info_component";
 import ProductCardComponent from "../components/product_card_component";
 import Context from "../../services/ContextService";
 import ProductRepository from "../../repositories/ProductRepository";
 import ProductResponse from "../../models/responses/ProductResponse";
+import LoadingComponent from "../components/loading_component";
 
 export default function ProductsPage({route, navigation}: any) {
 
@@ -43,11 +44,7 @@ export default function ProductsPage({route, navigation}: any) {
     }
 
     if (!loaded) {
-        return (
-            <ScrollView>
-                <Text>Carregando</Text>
-            </ScrollView>
-        );
+        return <LoadingComponent/>;
     }
 
     let windowWidth = Dimensions.get('window').width;

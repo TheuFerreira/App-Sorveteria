@@ -1,8 +1,9 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { FlatList, ScrollView, Text, TouchableNativeFeedback, View } from "react-native";
+import { FlatList, Text, TouchableNativeFeedback, View } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ButtonComponent from "../components/button_component";
+import LoadingComponent from "../components/loading_component";
 import ItemCardComponent from "./components/item_cart_component";
 
 let _products = [
@@ -46,11 +47,7 @@ export default function CartPage() {
     }
 
     if (!loaded) {
-        return (
-            <ScrollView>
-                <Text>Carregando</Text>
-            </ScrollView>
-        );
+        return <LoadingComponent/>;
     }
 
     const minusClick = (id: String) => {

@@ -5,6 +5,7 @@ import { Image, ScrollView, StatusBar, Text, ToastAndroid, View } from "react-na
 import UserRepository from "../../repositories/UserRepository";
 import Context from "../../services/ContextService";
 import ButtonComponent from "../components/button_component";
+import LoadingComponent from "../components/loading_component";
 import TextInputComponent from "../components/text_input_component";
 
 export default function LoginPage({navigation}: any) {
@@ -36,11 +37,7 @@ export default function LoginPage({navigation}: any) {
     }
 
     if (!loaded) {
-        return (
-            <ScrollView>
-                <Text>Carregando</Text>
-            </ScrollView>
-        );
+        return <LoadingComponent/>;
     }
 
     const onLogin = async (data: any) => {

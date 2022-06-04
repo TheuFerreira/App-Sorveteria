@@ -1,6 +1,7 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { FlatList, ScrollView, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
+import LoadingComponent from "../components/loading_component";
 import ItemNotificationComponent from "./components/item_notification_component";
 
 let _notifications = [
@@ -29,11 +30,7 @@ export default function NotificationsPage() {
     }
 
     if (!loaded) {
-        return (
-            <ScrollView>
-                <Text>Carregando</Text>
-            </ScrollView>
-        );
+        return <LoadingComponent/>;
     }
 
     return (
