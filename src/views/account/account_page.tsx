@@ -1,42 +1,19 @@
 import { loadAsync } from "expo-font";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
+import Context from "../../services/ContextService";
 import ButtonComponent from "../components/button_component";
 import ImageAccountComponent from "./components/image_account_component";
 import OptionButtonComponent from "./components/option_button_component";
 
-let _products = [
-    { id: '1', name: 'Açaí 500ML', price: 21.50, quantity: 2 },
-    { id: '2', name: 'Açaí 200ML', price: 13, quantity: 26 },
-    { id: '3', name: 'Açaí 700ML', price: 17, quantity: 3 },
-    { id: '4', name: 'Açaí 200ML', price: 13, quantity: 5 },
-    { id: '5', name: 'Açaí 700ML', price: 17, quantity: 1 },
-    { id: '6', name: 'Milk Shake 700ML', price: 17, quantity: 8 },
-];
-
 export default function AccountPage() {
 
+    const [_, setUsuario] : any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
-    const [totalValue, setTotalValue] = useState(0);
-    const [products, setProducts] = useState(_products);
-    let tempArr = [...products];
 
     useEffect(() => {
         loadFonts();
     }, []);
-
-    useEffect(() => {
-        let total = 0;
-        for (let i = 0; i < products.length; i++) {
-            const value =  products[i].price * products[i].quantity;
-            total += value;
-        }
-        setTotalValue(total);
-
-        return () => {
-            products
-        };
-    }, [products]);
 
     const loadFonts = async () => {
         await loadAsync({
@@ -106,7 +83,7 @@ export default function AccountPage() {
                         </View>
                     </View>
 
-                    <ButtonComponent text='Sair' backgroundColor='#FF9934'/>
+                    <ButtonComponent text='Sair' backgroundColor='#FF9934' onClick={() => setUsuario({})}/>
                 </View>
             </View>
         </ScrollView>
