@@ -1,3 +1,4 @@
+import LoginResponse from "../models/responses/LoginResponse";
 import RegisterResponse from "../models/responses/RegisterResponse";
 import { urlAPI } from "./ConfigRepositoru";
 
@@ -22,32 +23,39 @@ export default class UserRepository {
             register.success = json.success;
             register.message = json.message;
             return register;
-        }).catch((error) => {
+        }).catch(() => {
             const register = new RegisterResponse();
             register.success = false;
-            register.message = error;
+            register.message = 'Erro ao comunicar com o servidor';
             return register;
         });
         
         return res;
     }
 
-    async getUser(userName: string, password: string) : Promise<boolean> {
+    async login(userName: string, password: string) : Promise<LoginResponse> {
 
         const body = {
-            userName: userName,
+            user_name: userName,
             password: password
         };
 
-        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/get_user.php`, {
+        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/login.php`, {
             method: 'POST',
             body: JSON.stringify(body)
         }).then(async (response) => {
             const json = await response.json();
-            console.log(json);
-            return json > 0;
+
+            const loginResponse = new LoginResponse();
+            loginResponse.idUser = json.idUser;
+            loginResponse.name = json.name;
+            return loginResponse;
         }).catch(() => {
-            return false;
+            const loginResponse = new LoginResponse();
+            loginResponse.idUser = -1;
+            loginResponse.name = '';
+            loginResponse.message = 'Erro ao comunicar com o servidor';
+            return loginResponse;
         });
 
         return response;

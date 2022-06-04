@@ -1,7 +1,7 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Image, ScrollView, StatusBar, Text, View } from "react-native";
+import { Image, ScrollView, StatusBar, Text, ToastAndroid, View } from "react-native";
 import UserRepository from "../../repositories/UserRepository";
 import ButtonComponent from "../components/button_component";
 import TextInputComponent from "../components/text_input_component";
@@ -9,15 +9,19 @@ import TextInputComponent from "../components/text_input_component";
 export default function LoginPage({navigation}: any) {
 
     const [loaded, setLoaded] = useState(false);
-    const { register, setValue, handleSubmit } = useForm();
+    const { register, setValue, handleSubmit, formState: { errors } } = useForm();
 
     useEffect(() => {
         loadFonts();
     }, []);
 
     useEffect(() => {
-        register('userName');
-        register('password');
+        register('userName', {
+            required: 'Insira um usuário'
+        });
+        register('password', {
+            required: 'Insira uma senha'
+        });
     }, [register]);
 
     const loadFonts = async () => {
@@ -37,11 +41,18 @@ export default function LoginPage({navigation}: any) {
         );
     }
 
-    const onLogin = (data: any) => {
-        console.log(data);
-        new UserRepository().getUser(data.userName, data.password).then((response) => {
-            console.log(response);
-        });
+    const onLogin = async (data: any) => {
+        const userRepository = new UserRepository();
+        const result = await userRepository.login(data.userName, data.password);
+        if (result.idUser === -1) {
+            ToastAndroid.showWithGravity(
+                result.message,
+                ToastAndroid.SHORT,
+                ToastAndroid.BOTTOM
+            );
+            return;
+        }
+        console.log(result);
     }
 
     const onRegister = () => {
@@ -71,8 +82,17 @@ export default function LoginPage({navigation}: any) {
                 borderRadius: 16
             }}>
 
-                <TextInputComponent header='Usuário:' placeholder="Digite seu nome de usuário" onChangeText={(text: any) => setValue('userName', text)}/>
-                <TextInputComponent header='Senha:' placeholder="Digite sua senha" onChangeText={(text: any) => setValue('password', text)}/>
+                <TextInputComponent 
+                    header='Usuário:' 
+                    placeholder="Digite seu nome de usuário" 
+                    onChangeText={(text: any) => setValue('userName', text)}
+                    errorMessage={errors.userName?.message}/>
+
+                <TextInputComponent 
+                    header='Senha:' 
+                    placeholder="Digite sua senha" 
+                    onChangeText={(text: any) => setValue('password', text)}
+                    errorMessage={errors.password?.message}/>
 
                 <ButtonComponent text='Entrar' backgroundColor='#B3C631' onClick={handleSubmit(onLogin)}/>
 

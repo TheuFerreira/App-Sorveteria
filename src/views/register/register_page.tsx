@@ -34,7 +34,7 @@ export default function RegisterPage({navigation}: any) {
         const address = data.address;
         const cellphone = data.cellphone;
         const password = data.password;
-
+        
         const userRepository = new UserRepository();
         const result = await userRepository.registerUser(name, userName, address, cellphone, password);
         if (result.success !== true) {
