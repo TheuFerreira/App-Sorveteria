@@ -11,6 +11,8 @@ import ProductsPage from './src/views/products/products_page';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginPage from './src/views/login/login_page';
 import RegisterPage from './src/views/register/register_page';
+import Context from './src/services/ContextService';
+import LoginResponse from './src/models/responses/LoginResponse';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -37,8 +39,7 @@ const HomeNavigator = () => {
   );
 }
 
-export default function App() {
-
+const LoginArea = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={Theme}>
@@ -53,7 +54,9 @@ export default function App() {
       </NavigationContainer>
     </SafeAreaProvider>
   );
+}
 
+const Aplicativo = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={Theme}>
@@ -86,6 +89,16 @@ export default function App() {
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
-    
+  );
+}
+
+export default function App() {
+
+  const [usuario, setUsuario] = React.useState({});
+
+  return (
+    <Context.Provider value={[usuario, setUsuario]}>
+      { Object.keys(usuario).length === 0 ? <LoginArea/> : <Aplicativo/> }
+    </Context.Provider>
   );
 }

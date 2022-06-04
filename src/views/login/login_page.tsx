@@ -1,13 +1,15 @@
 import { loadAsync } from "expo-font";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Image, ScrollView, StatusBar, Text, ToastAndroid, View } from "react-native";
 import UserRepository from "../../repositories/UserRepository";
+import Context from "../../services/ContextService";
 import ButtonComponent from "../components/button_component";
 import TextInputComponent from "../components/text_input_component";
 
 export default function LoginPage({navigation}: any) {
 
+    const [usuario, setUsuario] : any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
     const { register, setValue, handleSubmit, formState: { errors } } = useForm();
 
@@ -52,7 +54,7 @@ export default function LoginPage({navigation}: any) {
             );
             return;
         }
-        console.log(result);
+        setUsuario(result);
     }
 
     const onRegister = () => {
