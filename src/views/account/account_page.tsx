@@ -9,14 +9,18 @@ import OptionButtonComponent from "./components/option_button_component";
 
 export default function AccountPage() {
 
-    const [_, setUsuario] : any = useContext(Context);
+    const [usuario, setUsuario] : any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         loadFonts();
     }, []);
 
+    console.log(usuario);
+
     const loadFonts = async () => {
+        setLoaded(false);
+
         await loadAsync({
             Pulang: require('../../../assets/fonts/Pulang.ttf'),
             FuturaHandwritten: require('../../../assets/fonts/FuturaHandwritten.ttf'),
@@ -30,59 +34,64 @@ export default function AccountPage() {
     }
 
     return (
-        <ScrollView style={{flex: 1}} contentContainerStyle={{flex: 1}}>
-            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 8, marginHorizontal: 8}}>
-                <Text style={{fontFamily: 'Pulang', fontSize: 24}}>Perfil</Text>
-            </View>
-
-            <View style={{position: 'relative'}}>
-                <View>
-                    <View style={{height: 50}}></View>
-                    <View style={{height: 50, backgroundColor: 'white', borderTopEndRadius: 16, borderTopStartRadius: 16, }}></View>
+        <View style={{flex: 1}}>
+            <ScrollView style={{flex: 1}} >
+                <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 8, marginHorizontal: 8}}>
+                    <Text style={{fontFamily: 'Pulang', fontSize: 24}}>Perfil</Text>
                 </View>
 
-                <View style={{position: 'absolute', left: 0, right: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                    <ImageAccountComponent/>
-                </View>
-            </View>
-
-            <View style={{backgroundColor: 'white', padding: 8, display: 'flex', flex: 1, justifyContent: 'space-between'}}>
-
-                <View style={{alignItems: 'center', paddingBottom: 24}}>
-                    <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 22}}>Paulo Puto</Text>
-                </View>
-
-                <View>
-                    <OptionButtonComponent content='Alterar nome de usuário'/>
-
-                    <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
-
-                    <OptionButtonComponent content='Alterar senha'/>
-
-                    <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
-
-                    <OptionButtonComponent content='Alterar endereço'/>
-
-                    <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
-
-                    <OptionButtonComponent content='Alterar telefone'/>
-                </View>
-
-                <View>
-
-                    <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
-
-                        <Image source={require('../../../assets/imgs/others/vaca.png')} width={20} height={20} style={{height: 20, width: 20}}/>
-
-                        <View style={{marginHorizontal: 8}}>
-                            <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 10}}>Developed by Ferreira</Text>
-                            <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 10}}>Designed by Alessandra</Text>
-                        </View>
+                <View style={{position: 'relative'}}>
+                    <View>
+                        <View style={{height: 50}}></View>
+                        <View style={{height: 50, backgroundColor: 'white', borderTopEndRadius: 16, borderTopStartRadius: 16, }}></View>
                     </View>
 
-                    <ButtonComponent text='Sair' backgroundColor='#FF9934' onClick={() => setUsuario({})}/>
+                    <View style={{position: 'absolute', left: 0, right: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                        <ImageAccountComponent/>
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+
+                <View style={{backgroundColor: 'white', padding: 8, display: 'flex', flex: 1, justifyContent: 'space-between'}}>
+
+                    <View style={{alignItems: 'center', paddingBottom: 4}}>
+                        <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 22}}>{usuario.name}</Text>
+                    </View>
+
+                    <View>
+                        <OptionButtonComponent content='Alterar nome'/>
+
+                        <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
+
+                        <OptionButtonComponent content='Alterar nome de usuário'/>
+
+                        <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
+
+                        <OptionButtonComponent content='Alterar endereço'/>
+
+                        <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
+
+                        <OptionButtonComponent content='Alterar telefone'/>
+
+                        <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
+
+                        <OptionButtonComponent content='Alterar senha'/>
+                    </View>
+
+                    <View style={{marginTop: 16}}>
+                        <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+
+                            <Image source={require('../../../assets/imgs/others/vaca.png')} width={20} height={20} style={{height: 20, width: 20}}/>
+
+                            <View style={{marginHorizontal: 8}}>
+                                <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 10}}>Developed by Ferreira</Text>
+                                <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 10}}>Designed by Alessandra</Text>
+                            </View>
+                        </View>
+
+                        <ButtonComponent text='Sair' backgroundColor='#FF9934' onClick={() => setUsuario({})}/>
+                    </View>
+                </View>
+            </ScrollView>
+        </View>
     );
 }
