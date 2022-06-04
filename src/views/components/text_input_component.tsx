@@ -6,7 +6,7 @@ export default function TextInputComponent(props: any) {
             <Text style={styles.textHeader}>{props.header}</Text>
             <TextInput 
                 placeholder={props.placeholder} 
-                style={styles.textInput} 
+                style={[styles.textInput, props.style]} 
                 onChangeText={value => props.onChangeText(value)}/>
 
             { props.errorMessage !== undefined && <Text style={styles.textError}>{props.errorMessage}</Text>}

@@ -1,22 +1,32 @@
 import { loadAsync } from "expo-font";
 import { useContext, useEffect, useState } from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import Context from "../../services/ContextService";
 import ButtonComponent from "../components/button_component";
 import LoadingComponent from "../components/loading_component";
+import CopyrightComponent from "./components/copyright_component";
 import ImageAccountComponent from "./components/image_account_component";
 import OptionButtonComponent from "./components/option_button_component";
+import QuestionModal from "./modals/question_modal";
+
+enum ModalType {
+    name = 1,
+    username = 2,
+    address = 3,
+    cellphone = 4,
+    password = 5,
+}
 
 export default function AccountPage() {
 
     const [usuario, setUsuario] : any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const [modalData, setModalData] = useState({});
 
     useEffect(() => {
         loadFonts();
     }, []);
-
-    console.log(usuario);
 
     const loadFonts = async () => {
         setLoaded(false);
@@ -33,9 +43,75 @@ export default function AccountPage() {
         return <LoadingComponent/>;
     }
 
+    const alterName = () => {
+        const data = {
+            type: ModalType.name,
+            header: 'Insira seu novo nome:',
+            placeholder: 'Digite aqui'
+        };
+
+        setModalData(data);
+        setVisible(true);
+    }
+
+    const alterUsername = () => {
+        const data = {
+            type: ModalType.username,
+            header: 'Insira seu novo nome de usuário:',
+            placeholder: 'Digite aqui'
+        };
+
+        setModalData(data);
+        setVisible(true);
+    }
+
+    const alterAddress = () => {
+        const data = {
+            type: ModalType.address,
+            header: 'Insira seu novo endereço:',
+            placeholder: 'Digite aqui'
+        };
+
+        setModalData(data);
+        setVisible(true);
+    }
+
+    const alterCellphone = () => {
+        const data = {
+            type: ModalType.cellphone,
+            header: 'Insira seu novo telefone:',
+            placeholder: 'Digite aqui'
+        };
+
+        setModalData(data);
+        setVisible(true);
+    }
+
+    const alterPassword = () => {
+        const data = {
+            type: ModalType.password,
+            header: 'Insira sua nova senha:',
+            placeholder: 'Digite aqui'
+        };
+
+        setModalData(data);
+        setVisible(true);
+    }
+
+    const onConfirmModal = (data: any) => {
+        console.log(data);
+        setVisible(false);
+    }
+
     return (
         <View style={{flex: 1}}>
             <ScrollView style={{flex: 1}} >
+                <QuestionModal 
+                    data={modalData} 
+                    visible={visible} 
+                    onCancel={() => setVisible(false)} 
+                    onConfirm={onConfirmModal}/>
+
                 <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 8, marginHorizontal: 8}}>
                     <Text style={{fontFamily: 'Pulang', fontSize: 24}}>Perfil</Text>
                 </View>
@@ -58,36 +134,27 @@ export default function AccountPage() {
                     </View>
 
                     <View>
-                        <OptionButtonComponent content='Alterar nome'/>
+                        <OptionButtonComponent content='Alterar nome' onClick={alterName}/>
 
                         <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
 
-                        <OptionButtonComponent content='Alterar nome de usuário'/>
+                        <OptionButtonComponent content='Alterar nome de usuário' onClick={alterUsername}/>
 
                         <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
 
-                        <OptionButtonComponent content='Alterar endereço'/>
+                        <OptionButtonComponent content='Alterar endereço' onClick={alterAddress}/>
 
                         <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
 
-                        <OptionButtonComponent content='Alterar telefone'/>
+                        <OptionButtonComponent content='Alterar telefone' onClick={alterCellphone}/>
 
                         <View style={{height: 1, backgroundColor: '#1b1b1b45'}}></View>
 
-                        <OptionButtonComponent content='Alterar senha'/>
+                        <OptionButtonComponent content='Alterar senha' onClick={alterPassword}/>
                     </View>
 
                     <View style={{marginTop: 16}}>
-                        <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
-
-                            <Image source={require('../../../assets/imgs/others/vaca.png')} width={20} height={20} style={{height: 20, width: 20}}/>
-
-                            <View style={{marginHorizontal: 8}}>
-                                <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 10}}>Developed by Ferreira</Text>
-                                <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 10}}>Designed by Alessandra</Text>
-                            </View>
-                        </View>
-
+                        <CopyrightComponent/>
                         <ButtonComponent text='Sair' backgroundColor='#FF9934' onClick={() => setUsuario({})}/>
                     </View>
                 </View>
