@@ -1,32 +1,40 @@
 import { loadAsync } from "expo-font";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
+import NotificationResponse from "../../models/responses/NotificationResponse";
+import NotificationRepository from "../../repositories/NotificationRepository";
+import Context from "../../services/ContextService";
 import LoadingComponent from "../components/loading_component";
 import ItemNotificationComponent from "./components/item_notification_component";
 
-let _notifications = [
-    { id: '1', type: 3, title: 'Atualizações do seu pedido:', description: 'Seu pedido está a caminho!', date: '11/05/2022 às 16:23' },
-    { id: '2', type: 2, title: 'Atualizações do seu pedido:', description: 'Seu pedindo está sendo feito', date: '11/05/2022 às 16:23' },
-    { id: '3', type: 1, title: 'Atualizações do seu pedido:', description: 'Pagamento aprovado', date: '11/05/2022 às 16:23' },
-];
-
 export default function NotificationsPage() {
     
+    const [usuario]: any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
-    const [notifications, setProducts] = useState(_notifications);
-    let tempArr = [...notifications];
+    const [notifications, setNotifications] = useState(Array<NotificationResponse>());
 
     useEffect(() => {
         loadFonts();
     }, []);
 
     const loadFonts = async () => {
+        setLoaded(false);
+
         await loadAsync({
             Pulang: require('../../../assets/fonts/Pulang.ttf'),
             FuturaHandwritten: require('../../../assets/fonts/FuturaHandwritten.ttf'),
         });
 
+        await getAllNotifications();
+
         setLoaded(true);
+    }
+
+    const getAllNotifications = async () => {
+        const idUser = usuario.idUser;
+        const notificationRepository = new NotificationRepository();
+        const _notifications = await notificationRepository.getAllByUser(idUser);
+        setNotifications(_notifications);
     }
 
     if (!loaded) {
@@ -36,8 +44,7 @@ export default function NotificationsPage() {
     return (
         <FlatList
             data={notifications}
-            extraData={tempArr}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.idNotification}
             style={{marginHorizontal: 8}}
             ListHeaderComponent={() => {
                 return (
