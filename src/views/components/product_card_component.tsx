@@ -13,7 +13,7 @@ export default function ProductCardComponent(props: any) {
                     <Image source={{uri: props.img}} height={50} width={50} style={{resizeMode: 'contain', width: 90, height: 60}}/>
                 </View>
                 <View style={styles.textContainer}>
-                    <TextTicker duration={7000} easing={Easing.linear} style={{fontFamily: 'Pulang', fontSize: 16}}>{props.name}</TextTicker>
+                    <TextTicker duration={7000} easing={Easing.linear} style={{fontFamily: 'Pulang', fontSize: 16, minWidth: props.maxWidth - 8}}>{props.name}</TextTicker>
                     <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 12}}>R$ {props.price.toFixed(2).replace('.', ',')}</Text>
                 </View>
             </View>
