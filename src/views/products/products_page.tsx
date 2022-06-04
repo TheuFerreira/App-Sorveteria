@@ -5,33 +5,41 @@ import SearchComponent from "../components/search_component";
 import UserInfoComponent from "../components/user_info_component";
 import ProductCardComponent from "../components/product_card_component";
 import Context from "../../services/ContextService";
+import ProductRepository from "../../repositories/ProductRepository";
+import ProductResponse from "../../models/responses/ProductResponse";
 
-const products = [
-    { id: '1', name: 'Açaí 500ML', price: 21.50 },
-    { id: '2', name: 'Açaí 200ML', price: 13 },
-    { id: '6', name: 'Milk Shake 700ML', price: 17 },
-    { id: '6', name: 'Milk Shake sabor chocolate 700ML', price: 17 },
-    { id: '3', name: 'Açaí 700ML', price: 17 },
-    { id: '4', name: 'Açaí 200ML', price: 13 },
-    { id: '5', name: 'Açaí 700ML', price: 17 },
-];
-
-export default function ProductsPage({navigation}: any) {
+export default function ProductsPage({route, navigation}: any) {
 
     const [usuario, _]: any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
+    const [products, setProducts] = useState(Array<ProductResponse>());
+    const idCategory = route.params.idCategory;
 
     useEffect(() => {
         loadFonts();
     }, []);
 
     const loadFonts = async () => {
+        setLoaded(false);
+
         await loadAsync({
             Pulang: require('../../../assets/fonts/Pulang.ttf'),
             FuturaHandwritten: require('../../../assets/fonts/FuturaHandwritten.ttf'),
         });
 
+        await loadProductsByCategory();
+
         setLoaded(true);
+    }
+
+    const loadProductsByCategory = async () => {
+        if (idCategory == null) {
+            return;
+        }
+
+        const productRepository = new ProductRepository();
+        const _products = await productRepository.getByCategory(idCategory, "");
+        setProducts(_products);
     }
 
     if (!loaded) {
@@ -48,7 +56,7 @@ export default function ProductsPage({navigation}: any) {
     return (
         <FlatList
             data={products}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.idProduct}
             numColumns={2}
             style={{marginHorizontal: 8}}
             ListHeaderComponent={() => {
@@ -69,7 +77,12 @@ export default function ProductsPage({navigation}: any) {
                     </View>
                 );
             }}
-            renderItem={({item}) => <ProductCardComponent name={item.name} price={item.price} maxWidth={windowWidth}/>}
+            renderItem={({item}) => 
+                <ProductCardComponent 
+                    name={item.title} 
+                    price={item.price} 
+                    img={item.img}
+                    maxWidth={windowWidth}/>}
         />
     );
 }

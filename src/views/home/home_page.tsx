@@ -90,7 +90,15 @@ export default function HomePage({navigation}: any) {
                                 numColumns={3}
                                 style={{marginVertical: 8, borderRadius: 16, backgroundColor: 'white', padding: 8}}
                                 renderItem={({item}) => 
-                                    <CategoryCardComponent name={item.description} picture={item.img} fontFamily={'Pulang'} onClick={() => navigation.navigate('Products')}/>
+                                    <CategoryCardComponent 
+                                        id={item.idCategory}
+                                        name={item.description} 
+                                        picture={item.img} 
+                                        fontFamily={'Pulang'} 
+                                        onClick={(id: any) => navigation.navigate('Products', {
+                                            idCategory: id,
+                                            idProduct: null,
+                                        })}/>
                                 }
                             />
                         </View>
