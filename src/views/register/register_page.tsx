@@ -58,15 +58,7 @@ export default function RegisterPage({navigation}: any) {
             <View style={{alignItems: 'center', display: 'flex', paddingVertical: 16}}>
                 <View style={{height: 100, width: 100, backgroundColor: '#F9F4F4', borderRadius: 50}}>
                     <View style={{height: 100, width: 100, justifyContent: 'center', alignItems: 'center'}}>
-                        <MaterialCommunityIcons name='camera' size={48}/>
-                    </View>
-
-                    <View style={{position: 'absolute', height: 40, width: 40, right: 0, bottom: 0, borderRadius: 20}}>
-                        <TouchableNativeFeedback>
-                            <View style={{width: 40, height: 40, borderRadius: 20, borderColor: 'black', borderWidth: 2, backgroundColor: '#FFC018', justifyContent: 'center', alignItems: 'center'}}>
-                                <MaterialCommunityIcons name='plus' size={24}/>
-                            </View>
-                        </TouchableNativeFeedback>
+                        <MaterialCommunityIcons name='account' size={48}/>
                     </View>
                 </View>
             </View>
