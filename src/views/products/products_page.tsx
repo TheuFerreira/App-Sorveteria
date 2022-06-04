@@ -1,9 +1,10 @@
 import { loadAsync } from "expo-font";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Dimensions, FlatList, Image, ScrollView, StatusBar, Text, View } from "react-native";
 import SearchComponent from "../components/search_component";
 import UserInfoComponent from "../components/user_info_component";
 import ProductCardComponent from "../components/product_card_component";
+import Context from "../../services/ContextService";
 
 const products = [
     { id: '1', name: 'Açaí 500ML', price: 21.50 },
@@ -17,6 +18,7 @@ const products = [
 
 export default function ProductsPage({navigation}: any) {
 
+    const [usuario, _]: any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
@@ -54,7 +56,7 @@ export default function ProductsPage({navigation}: any) {
                     <View>
                         <StatusBar/>
                         <View style={{marginVertical: 8, display: 'flex', flexDirection: 'row'}}>
-                            <UserInfoComponent/>
+                            <UserInfoComponent name={usuario.name} address={usuario.address}/>
 
                             <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center'}}>
                                 <Image source={require('../../../assets/icons/logo.png')} style={{width: 75, height: 75, resizeMode: 'contain'}}/>
