@@ -6,15 +6,8 @@ import UserInfoComponent from "../components/user_info_component";
 import CategoryCardComponent from "./components/category_card_component";
 import ProductCardComponent from "../components/product_card_component";
 import Context from "../../services/ContextService";
-
-const numbers = [
-    { id: "00", name: "Açaís", picture: require('../../../assets/imgs/acai.png') },
-    { id: "01", name: "Sorvetes", picture: require('../../../assets/imgs/sorvetes.png') },
-    { id: "02", name: "Raspadinhas", picture: require('../../../assets/imgs/raspadinhas.jpg') },
-    { id: "03", name: "Sucos", picture: require('../../../assets/imgs/sucos.png') },
-    { id: "04", name: "Potes", picture: require('../../../assets/imgs/potes.png') },
-    { id: "05", name: "Milk Shakes", picture: require('../../../assets/imgs/milk_shake.webp') }
-];
+import CategoryRepository from "../../repositories/CategoryRepository";
+import CategoryResponse from "../../models/responses/CategoryResponse";
 
 const products = [
     { id: '1', name: 'Açaí 500ML', price: 21.50 },
@@ -30,18 +23,30 @@ export default function HomePage({navigation}: any) {
 
     const [usuario, _]:any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
+    const [categories, setCategories] = useState(Array<CategoryResponse>());
 
     useEffect(() => {
         loadFonts();
     }, []);
 
     const loadFonts = async () => {
+        setLoaded(false);
+
         await loadAsync({
             Pulang: require('../../../assets/fonts/Pulang.ttf'),
             FuturaHandwritten: require('../../../assets/fonts/FuturaHandwritten.ttf'),
         });
 
+        await loadCategories();
+
         setLoaded(true);
+    }
+
+    const loadCategories = async () => {
+        const categoryRepository = new CategoryRepository();
+        const _categories = await categoryRepository.getAll();
+
+        setCategories(_categories);
     }
 
     if (!loaded) {
@@ -80,12 +85,12 @@ export default function HomePage({navigation}: any) {
 
                             <FlatList
                                 nestedScrollEnabled
-                                data={numbers}
-                                keyExtractor={item => item.id}
+                                data={categories}
+                                keyExtractor={item => item.idCategory}
                                 numColumns={3}
                                 style={{marginVertical: 8, borderRadius: 16, backgroundColor: 'white', padding: 8}}
                                 renderItem={({item}) => 
-                                    <CategoryCardComponent name={item.name} picture={item.picture} fontFamily={'Pulang'} onClick={() => navigation.navigate('Products')}/>
+                                    <CategoryCardComponent name={item.description} picture={item.img} fontFamily={'Pulang'} onClick={() => navigation.navigate('Products')}/>
                                 }
                             />
                         </View>
