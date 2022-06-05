@@ -1,10 +1,14 @@
 import { StyleSheet, TextInput, View } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default function SearchComponent() {
+export default function SearchComponent(props: any) {
     return (
         <View style={styles.container}>
-            <TextInput placeholder="Clique aqui para procurar o item desejado" style={styles.input}/>
+            <TextInput 
+                value={props.value}
+                placeholder="Clique aqui para procurar o item desejado" 
+                style={styles.input}
+                onChangeText={(text) => props.onChangeText(text)}/>
             <MaterialCommunityIcons name='magnify' size={26}/>
         </View>
     );

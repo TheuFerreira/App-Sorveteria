@@ -1,6 +1,6 @@
 import { loadAsync } from "expo-font";
 import { useContext, useEffect, useState } from "react";
-import { Dimensions, FlatList, Image, StatusBar, Text, View } from "react-native";
+import { Dimensions, FlatList, Image, ScrollView, StatusBar, Text, View } from "react-native";
 import SearchComponent from "../components/search_component";
 import UserInfoComponent from "../components/user_info_component";
 import ProductCardComponent from "../components/product_card_component";
@@ -14,11 +14,14 @@ export default function ProductsPage({route, navigation}: any) {
     const [usuario, _]: any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
     const [products, setProducts] = useState(Array<ProductResponse>());
+    const [search, setSearch] = useState('');
+    let extraData = [...products];
+
     const idCategory = route.params.idCategory;
 
     useEffect(() => {
         loadFonts();
-    }, []);
+    }, [usuario]);
 
     const loadFonts = async () => {
         setLoaded(false);
@@ -43,6 +46,18 @@ export default function ProductsPage({route, navigation}: any) {
         setProducts(_products);
     }
 
+    useEffect(() => {
+        if (idCategory != null) {
+            searchProductByCategory(search);
+        }
+    }, [search]);
+
+    const searchProductByCategory = async (text: string) => {
+        const productRepository = new ProductRepository();
+        extraData = await productRepository.getByCategory(idCategory, text);
+        setProducts(extraData);
+    }
+
     if (!loaded) {
         return <LoadingComponent/>;
     }
@@ -51,29 +66,51 @@ export default function ProductsPage({route, navigation}: any) {
     windowWidth = ((windowWidth - 16 - 16) / 2) - 8;
 
     return (
+        <View style={{flex: 1}}>
+            <ScrollView nestedScrollEnabled={true} style={{marginHorizontal: 8}}>
+                <View>
+                    <StatusBar/>
+                    <View style={{marginVertical: 8, display: 'flex', flexDirection: 'row'}}>
+                        <UserInfoComponent name={usuario.name} address={usuario.address}/>
+
+                        <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center'}}>
+                            <Image source={require('../../../assets/icons/logo.png')} style={{width: 75, height: 75, resizeMode: 'contain'}}/>
+                        </View>
+                    </View>
+
+                    <SearchComponent
+                        value={search}
+                        onChangeText={(text: string) => setSearch(text)}/>
+
+                    <Text style={{marginVertical: 8, fontSize: 24, fontFamily: 'Pulang'}}>Sorvetes:</Text>
+                </View>
+
+                <ScrollView horizontal={true}>
+                    <FlatList
+                        data={products}
+                        extraData={extraData}
+                        keyExtractor={item => item.idProduct}
+                        numColumns={2}
+                        style={{marginHorizontal: 8}}
+                        renderItem={({item}) => 
+                            <ProductCardComponent 
+                                name={item.title} 
+                                price={item.price} 
+                                img={item.img}
+                                maxWidth={windowWidth}/>}
+                    />
+                </ScrollView>
+            </ScrollView>
+        </View>
+    );
+
+    return (
         <FlatList
             data={products}
+            extraData={extraData}
             keyExtractor={item => item.idProduct}
             numColumns={2}
             style={{marginHorizontal: 8}}
-            ListHeaderComponent={() => {
-                return (
-                    <View>
-                        <StatusBar/>
-                        <View style={{marginVertical: 8, display: 'flex', flexDirection: 'row'}}>
-                            <UserInfoComponent name={usuario.name} address={usuario.address}/>
-
-                            <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center'}}>
-                                <Image source={require('../../../assets/icons/logo.png')} style={{width: 75, height: 75, resizeMode: 'contain'}}/>
-                            </View>
-                        </View>
-
-                        <SearchComponent/>
-
-                        <Text style={{marginVertical: 8, fontSize: 24, fontFamily: 'Pulang'}}>Sorvetes:</Text>
-                    </View>
-                );
-            }}
             renderItem={({item}) => 
                 <ProductCardComponent 
                     name={item.title} 
