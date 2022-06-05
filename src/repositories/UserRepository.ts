@@ -63,4 +63,24 @@ export default class UserRepository {
 
         return response;
     }
+
+    async updateName(idUser: number, name: string): Promise<boolean> {
+        
+        const data = {
+            id_user: idUser,
+            name: name
+        };
+
+        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/update_name.php`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }).then(async (response) => {
+            const json = await response.json();
+            return json;
+        }).catch((error) => {
+            return false;
+        });
+
+        return response;
+    } 
 }

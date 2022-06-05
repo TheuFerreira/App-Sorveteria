@@ -1,6 +1,7 @@
 import { loadAsync } from "expo-font";
 import { useContext, useEffect, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, ToastAndroid, View } from "react-native";
+import UserRepository from "../../repositories/UserRepository";
 import Context from "../../services/ContextService";
 import ButtonComponent from "../components/button_component";
 import LoadingComponent from "../components/loading_component";
@@ -27,6 +28,8 @@ export default function AccountPage() {
     useEffect(() => {
         loadFonts();
     }, []);
+
+    console.log(usuario);
 
     const loadFonts = async () => {
         setLoaded(false);
@@ -98,9 +101,30 @@ export default function AccountPage() {
         setVisible(true);
     }
 
-    const onConfirmModal = (data: any) => {
-        console.log(data);
-        setVisible(false);
+    const onConfirmModal = async (data: any) => {
+        const type = data.type;
+        const field = data.field;
+        const idUser = usuario.idUser;
+        let result: Boolean = false;
+
+        const userRepository = new UserRepository();
+        if (type == ModalType.name) {
+            result = await userRepository.updateName(idUser, field);
+            if (result) {
+                usuario.name = field;
+                setUsuario(usuario);
+            }
+        }
+
+        if (result) {
+            setVisible(false);
+        } else {
+            ToastAndroid.showWithGravity(
+                'Não foi possível realizar a alteração',
+                ToastAndroid.SHORT,
+                ToastAndroid.BOTTOM
+            );
+        }
     }
 
     return (
