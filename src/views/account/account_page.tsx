@@ -29,8 +29,6 @@ export default function AccountPage() {
         loadFonts();
     }, []);
 
-    console.log(usuario);
-
     const loadFonts = async () => {
         setLoaded(false);
 
@@ -114,10 +112,27 @@ export default function AccountPage() {
                 usuario.name = field;
                 setUsuario(usuario);
             }
+        } else if (type == ModalType.address) {
+            result = await userRepository.updateAddress(idUser, field);
+            if (result) {
+                usuario.address = field;
+                setUsuario(usuario);
+            }
+        } else if (type == ModalType.cellphone) {
+            result = await userRepository.updateCellphone(idUser, field);
+        } else if (type == ModalType.password) {
+            result = await userRepository.updatePassword(idUser, field);
+        } else if (type == ModalType.username) {
+            result = await userRepository.updateUsername(idUser, field);
         }
 
         if (result) {
             setVisible(false);
+            ToastAndroid.showWithGravity(
+                'Alteração realizada',
+                ToastAndroid.SHORT,
+                ToastAndroid.BOTTOM
+            );
         } else {
             ToastAndroid.showWithGravity(
                 'Não foi possível realizar a alteração',

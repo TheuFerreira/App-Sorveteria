@@ -77,7 +77,87 @@ export default class UserRepository {
         }).then(async (response) => {
             const json = await response.json();
             return json;
-        }).catch((error) => {
+        }).catch(() => {
+            return false;
+        });
+
+        return response;
+    } 
+
+    async updateUsername(idUser: number, username: string): Promise<boolean> {
+        
+        const data = {
+            id_user: idUser,
+            user_name: username
+        };
+
+        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/update_username.php`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }).then(async (response) => {
+            const json = await response.json();
+            return json;
+        }).catch(() => {
+            return false;
+        });
+
+        return response;
+    } 
+
+    async updateAddress(idUser: number, address: string): Promise<boolean> {
+        
+        const data = {
+            id_user: idUser,
+            address: address
+        };
+
+        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/update_address.php`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }).then(async (response) => {
+            const json = await response.json();
+            return json;
+        }).catch(() => {
+            return false;
+        });
+
+        return response;
+    } 
+
+    async updateCellphone(idUser: number, cellphone: string): Promise<boolean> {
+        
+        const data = {
+            id_user: idUser,
+            cellphone: cellphone
+        };
+
+        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/update_cellphone.php`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }).then(async (response) => {
+            const json = await response.json();
+            return json;
+        }).catch(() => {
+            return false;
+        });
+
+        return response;
+    } 
+
+    async updatePassword(idUser: number, password: string): Promise<boolean> {
+        
+        const data = {
+            id_user: idUser,
+            password: password
+        };
+
+        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/update_password.php`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }).then(async (response) => {
+            const json = await response.json();
+            return json;
+        }).catch(() => {
             return false;
         });
 
