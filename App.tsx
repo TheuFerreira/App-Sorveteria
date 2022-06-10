@@ -12,6 +12,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginPage from './src/views/login/login_page';
 import RegisterPage from './src/views/register/register_page';
 import Context from './src/services/ContextService';
+import ProductInfoPage from './src/views/product_info/product_info_page';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -34,6 +35,7 @@ const HomeNavigator = () => {
         
       <Stack.Screen name='Initial' component={HomePage}/>
       <Stack.Screen name='Products' component={ProductsPage}/>
+      <Stack.Screen name='ProductInfo' component={ProductInfoPage}/>
     </Stack.Navigator>
   );
 }

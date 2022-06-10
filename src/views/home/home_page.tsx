@@ -79,6 +79,10 @@ export default function HomePage({navigation}: any) {
         navigation.navigate('Products', data);
     }
 
+    const onProduct = (idProduct: any) => {
+        navigation.navigate('ProductInfo', { idProduct });
+    }
+
     return (
         <FlatList
             data={mostSelled}
@@ -127,10 +131,14 @@ export default function HomePage({navigation}: any) {
             }}
             renderItem={({item}) => 
                 <ProductCardComponent 
+                    id={item.idProduct}
                     name={item.title} 
                     price={item.price}
                     img={item.img} 
-                    maxWidth={windowWidth}/>}
+                    maxWidth={windowWidth}
+                    onClick={onProduct}
+                />
+            }
         />
     );
 }

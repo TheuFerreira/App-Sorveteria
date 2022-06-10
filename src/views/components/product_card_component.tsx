@@ -4,7 +4,7 @@ import TextTicker from "react-native-text-ticker";
 export default function ProductCardComponent(props: any) {
 
     return (
-        <TouchableNativeFeedback onPress={() => {}}>
+        <TouchableNativeFeedback onPress={() => props.onClick(props.id)}>
             <View style={[{
                 minWidth: props.maxWidth,
                 maxWidth: props.maxWidth,

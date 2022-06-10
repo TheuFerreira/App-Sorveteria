@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import DefaultButtonComponent from "./default_button_component";
+import DefaultButtonComponent from "../../components/default_button_component";
 
 export default function ItemCardComponent(props: any) {
     const data = props.data;
