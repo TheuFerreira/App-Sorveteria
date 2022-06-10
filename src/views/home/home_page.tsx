@@ -18,6 +18,7 @@ export default function HomePage({navigation}: any) {
     const [loaded, setLoaded] = useState(false);
     const [categories, setCategories] = useState(Array<CategoryResponse>());
     const [mostSelled, setMostSelled] = useState(Array<ProductResponse>());
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         loadFonts();
@@ -59,6 +60,25 @@ export default function HomePage({navigation}: any) {
     let windowWidth = Dimensions.get('window').width;
     windowWidth = ((windowWidth - 16 - 16) / 2) - 8;
 
+    const onTapCategory = (idCategory: number) => {
+        const data = {
+            idCategory: idCategory
+        };
+
+        navigation.navigate('Products', data);
+    }
+
+    const onSearch = (text: string) => {
+        const data = {
+            idCategory: null,
+            text: text
+        };
+        
+        setSearch(text);
+
+        navigation.navigate('Products', data);
+    }
+
     return (
         <FlatList
             data={mostSelled}
@@ -77,7 +97,9 @@ export default function HomePage({navigation}: any) {
                             </View>
                         </View>
 
-                        <SearchComponent/>
+                        <SearchComponent
+                            value={search}
+                            onChangeText={onSearch}/>
 
                         <View>
                             <Text style={{fontSize: 18, fontFamily: 'Pulang'}}>Categorias</Text>
@@ -94,9 +116,7 @@ export default function HomePage({navigation}: any) {
                                         name={item.description} 
                                         picture={item.img} 
                                         fontFamily={'Pulang'} 
-                                        onClick={(id: any) => navigation.navigate('Products', {
-                                            idCategory: id,
-                                        })}/>
+                                        onClick={onTapCategory}/>
                                 }
                             />
                         </View>

@@ -19,6 +19,7 @@ export default function ProductsPage({route, navigation}: any) {
     let extraData = [...products];
 
     const idCategory = route.params.idCategory;
+    const textSearch = route.params.text;
 
     useEffect(() => {
         loadFonts();
@@ -33,6 +34,7 @@ export default function ProductsPage({route, navigation}: any) {
         });
 
         await loadProductsByCategory();
+        await loadProductsBySearch();
 
         setLoaded(true);
     }
@@ -47,9 +49,19 @@ export default function ProductsPage({route, navigation}: any) {
         setProducts(_products);
     }
 
+    const loadProductsBySearch = async () => {
+        if (idCategory != null) {
+            return;
+        }
+
+        setSearch(textSearch);
+    } 
+
     useEffect(() => {
         if (idCategory != null) {
             searchProductByCategory(search);
+        } else {
+            searchProduct(search);
         }
     }, [search]);
 
@@ -58,6 +70,16 @@ export default function ProductsPage({route, navigation}: any) {
 
         const productRepository = new ProductRepository();
         extraData = await productRepository.getByCategory(idCategory, text);
+        setProducts(extraData);
+
+        setIsSearching(false);
+    }
+
+    const searchProduct = async (text: string) => {
+        setIsSearching(true);
+
+        const productRepository = new ProductRepository();
+        extraData = await productRepository.getAll(text);
         setProducts(extraData);
 
         setIsSearching(false);
@@ -122,21 +144,5 @@ export default function ProductsPage({route, navigation}: any) {
                 { showProducts() }
             </ScrollView>
         </View>
-    );
-
-    return (
-        <FlatList
-            data={products}
-            extraData={extraData}
-            keyExtractor={item => item.idProduct}
-            numColumns={2}
-            style={{marginHorizontal: 8}}
-            renderItem={({item}) => 
-                <ProductCardComponent 
-                    name={item.title} 
-                    price={item.price} 
-                    img={item.img}
-                    maxWidth={windowWidth}/>}
-        />
     );
 }
