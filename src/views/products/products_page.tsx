@@ -1,18 +1,19 @@
 import { loadAsync } from "expo-font";
 import { useContext, useEffect, useState } from "react";
-import { Dimensions, FlatList, Image, ScrollView, StatusBar, Text, View } from "react-native";
+import { Dimensions, FlatList, Image, ScrollView, StatusBar, Text, TouchableNativeFeedback, View } from "react-native";
 import SearchComponent from "../components/search_component";
-import UserInfoComponent from "../components/user_info_component";
 import ProductCardComponent from "../components/product_card_component";
 import Context from "../../services/ContextService";
 import ProductRepository from "../../repositories/ProductRepository";
 import ProductResponse from "../../models/responses/ProductResponse";
 import LoadingComponent from "../components/loading_component";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function ProductsPage({route, navigation}: any) {
 
     const [usuario, _]: any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
+    const [isSearching, setIsSearching] = useState(false);
     const [products, setProducts] = useState(Array<ProductResponse>());
     const [search, setSearch] = useState('');
     let extraData = [...products];
@@ -53,9 +54,13 @@ export default function ProductsPage({route, navigation}: any) {
     }, [search]);
 
     const searchProductByCategory = async (text: string) => {
+        setIsSearching(true);
+
         const productRepository = new ProductRepository();
         extraData = await productRepository.getByCategory(idCategory, text);
         setProducts(extraData);
+
+        setIsSearching(false);
     }
 
     if (!loaded) {
@@ -65,13 +70,42 @@ export default function ProductsPage({route, navigation}: any) {
     let windowWidth = Dimensions.get('window').width;
     windowWidth = ((windowWidth - 16 - 16) / 2) - 8;
 
+    const showProducts = () => {
+        if (isSearching) {
+            return <LoadingComponent/>;
+        }
+
+        return (
+            <ScrollView horizontal={true}>
+                <FlatList
+                    data={products}
+                    extraData={extraData}
+                    keyExtractor={item => item.idProduct}
+                    numColumns={2}
+                    style={{marginHorizontal: 8}}
+                    renderItem={({item}) => 
+                        <ProductCardComponent 
+                            name={item.title} 
+                            price={item.price} 
+                            img={item.img}
+                            maxWidth={windowWidth}/>}
+                />
+            </ScrollView>
+        );
+    }
+
     return (
         <View style={{flex: 1}}>
             <ScrollView nestedScrollEnabled={true} style={{marginHorizontal: 8}}>
                 <View>
                     <StatusBar/>
-                    <View style={{marginVertical: 8, display: 'flex', flexDirection: 'row'}}>
-                        <UserInfoComponent name={usuario.name} address={usuario.address}/>
+
+                    <View style={{marginVertical: 8, display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableNativeFeedback onPress={() => navigation.pop()}>
+                            <View>
+                                <MaterialCommunityIcons name="arrow-left" size={32}/>
+                            </View>
+                        </TouchableNativeFeedback>
 
                         <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center'}}>
                             <Image source={require('../../../assets/icons/logo.png')} style={{width: 75, height: 75, resizeMode: 'contain'}}/>
@@ -85,21 +119,7 @@ export default function ProductsPage({route, navigation}: any) {
                     <Text style={{marginVertical: 8, fontSize: 24, fontFamily: 'Pulang'}}>Sorvetes:</Text>
                 </View>
 
-                <ScrollView horizontal={true}>
-                    <FlatList
-                        data={products}
-                        extraData={extraData}
-                        keyExtractor={item => item.idProduct}
-                        numColumns={2}
-                        style={{marginHorizontal: 8}}
-                        renderItem={({item}) => 
-                            <ProductCardComponent 
-                                name={item.title} 
-                                price={item.price} 
-                                img={item.img}
-                                maxWidth={windowWidth}/>}
-                    />
-                </ScrollView>
+                { showProducts() }
             </ScrollView>
         </View>
     );
