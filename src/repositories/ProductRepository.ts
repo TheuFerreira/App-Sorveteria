@@ -1,3 +1,4 @@
+import ProductInfoResponse from "../models/responses/ProductInfoResponse";
 import ProductResponse from "../models/responses/ProductResponse";
 import { urlAPI } from "./ConfigRepository";
 
@@ -63,6 +64,33 @@ export default class ProductRepository {
             return products;
         }).catch(() => {
             const products = Array<ProductResponse>();
+            return products;
+        });
+
+        return res;
+    }
+
+    async getById(idProduct: number) : Promise<ProductInfoResponse> {
+        const data = {
+            id_product: idProduct
+        }
+
+        const res = await fetch(`${urlAPI}/API-Sorveteria/routes/product/get_by_id.php`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }).then(async (response) => {
+            const json = await response.json();
+
+            const productResponse = new ProductInfoResponse();
+            productResponse.idProduct = json.idProduct;
+            productResponse.title = json.title;
+            productResponse.price = json.price;
+            productResponse.img = json.img;
+            productResponse.description = json.description;
+
+            return productResponse;
+        }).catch(() => {
+            const products = new ProductInfoResponse();
             return products;
         });
 
