@@ -62,6 +62,7 @@ export default function ProductInfoPage({route, navigation}: any) {
 
             products.push(cartProduct);
         } else {
+            let isInList = false;
             for (let i = 0; i < values.length; i++) {
                 const value = values[i];
 
@@ -71,7 +72,16 @@ export default function ProductInfoPage({route, navigation}: any) {
 
                 if (idProduct === cartProduct.idProduct) {
                     cartProduct.quantity += quantity;
+                    isInList = true;
                 }
+
+                products.push(cartProduct);
+            }
+
+            if (!isInList) {
+                const cartProduct = new CartProduct();
+                cartProduct.idProduct = idProduct;
+                cartProduct.quantity = quantity;
 
                 products.push(cartProduct);
             }
