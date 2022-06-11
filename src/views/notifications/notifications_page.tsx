@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/native";
 import { loadAsync } from "expo-font";
 import { useContext, useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
@@ -13,9 +14,15 @@ export default function NotificationsPage() {
     const [loaded, setLoaded] = useState(false);
     const [notifications, setNotifications] = useState(Array<NotificationResponse>());
 
+    const isFocused = useIsFocused();
+
     useEffect(() => {
+        if (!isFocused) {
+            return;
+        }
+
         loadFonts();
-    }, []);
+    }, [isFocused]);
 
     const loadFonts = async () => {
         setLoaded(false);
