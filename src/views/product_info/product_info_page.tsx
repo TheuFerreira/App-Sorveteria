@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Image, ScrollView, StatusBar, Text, TouchableNativeFeedback, View } from "react-native";
+import { Image, ScrollView, StatusBar, Text, ToastAndroid, TouchableNativeFeedback, View } from "react-native";
 import LoadingComponent from "../components/loading_component";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DefaultButtonComponent from "../components/default_button_component";
@@ -7,6 +7,8 @@ import ButtonComponent from "../components/button_component";
 import ProductRepository from "../../repositories/ProductRepository";
 import ProductInfoResponse from "../../models/responses/ProductInfoResponse";
 import { loadAsync } from "expo-font";
+import { getJson, saveJson } from "../../services/storage_service";
+import CartProduct from "../../models/CartProduct";
 
 export default function ProductInfoPage({route, navigation}: any) {
 
@@ -48,6 +50,42 @@ export default function ProductInfoPage({route, navigation}: any) {
             return;
         } 
         setQuantity(quantity + value);
+    }
+
+    const addToCart = async () => {
+        const values = await getJson();
+        const products = new Array<CartProduct>();
+        if (values == null) {
+            const cartProduct = new CartProduct();
+            cartProduct.idProduct = idProduct;
+            cartProduct.quantity = quantity;
+
+            products.push(cartProduct);
+        } else {
+            for (let i = 0; i < values.length; i++) {
+                const value = values[i];
+
+                const cartProduct = new CartProduct();
+                cartProduct.idProduct = value.idProduct;
+                cartProduct.quantity = value.quantity;
+
+                if (idProduct === cartProduct.idProduct) {
+                    cartProduct.quantity += quantity;
+                }
+
+                products.push(cartProduct);
+            }
+        }
+
+        await saveJson(products);
+
+        setQuantity(1);
+
+        ToastAndroid.showWithGravity(
+            'Produto adicionado ao carrinho',
+            ToastAndroid.SHORT,
+            ToastAndroid.BOTTOM
+        );
     }
 
     if (loading) {
@@ -107,7 +145,7 @@ export default function ProductInfoPage({route, navigation}: any) {
                             <Text style={{fontSize: 24, color: '#B3C631'}}>R$ {(quantity * product.price).toFixed(2)}</Text>
                         </View>
 
-                        <ButtonComponent text='Adicionar ao carrinho' backgroundColor='#B3C631' onClick={() => console.log('ola')}/>
+                        <ButtonComponent text='Adicionar ao carrinho' backgroundColor='#B3C631' onClick={addToCart}/>
                     </View>
                 </View>
             </ScrollView>
