@@ -6,27 +6,48 @@ import DefaultButtonComponent from "../components/default_button_component";
 import ButtonComponent from "../components/button_component";
 import ProductRepository from "../../repositories/ProductRepository";
 import ProductInfoResponse from "../../models/responses/ProductInfoResponse";
+import { loadAsync } from "expo-font";
 
 export default function ProductInfoPage({route, navigation}: any) {
 
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState(new ProductInfoResponse());
+    const [quantity, setQuantity] = useState(1);
 
     const idProduct = route.params.idProduct;
 
     useEffect(() => {
-        loadProduct();
+        loadAll();
     }, []);
 
-    const loadProduct = async () => {
+    const loadAll = async () => {
         setLoading(true);
 
+        await loadFonts();
+        await loadProduct();
+
+        setLoading(false);
+    }
+
+    const loadFonts = async () => {
+        await loadAsync({
+            Pulang: require('../../../assets/fonts/Pulang.ttf'),
+            FuturaHandwritten: require('../../../assets/fonts/FuturaHandwritten.ttf'),
+        });
+    }
+
+    const loadProduct = async () => {
         const productRepository = new ProductRepository();
         const result = await productRepository.getById(idProduct);
 
         setProduct(result);
-    
-        setLoading(false);
+    }
+
+    const changeQuantity = (value: number) => {
+        if (quantity === 1 && value === -1) {
+            return;
+        } 
+        setQuantity(quantity + value);
     }
 
     if (loading) {
@@ -46,7 +67,7 @@ export default function ProductInfoPage({route, navigation}: any) {
                             </View>
                         </TouchableNativeFeedback>
 
-                        <Text style={{fontSize: 24, fontWeight: 'bold'}}>{product.title}</Text>
+                        <Text style={{fontSize: 24, fontWeight: 'bold', flex: 1}}>{product.title}</Text>
 
                         <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center'}}>
                             <Image source={require('../../../assets/icons/logo.png')} style={{width: 75, height: 75, resizeMode: 'contain'}}/>
@@ -67,14 +88,14 @@ export default function ProductInfoPage({route, navigation}: any) {
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                     <Text style={{fontSize: 20, color: '#B3C631', marginRight: 16}}>R$ {product.price.toFixed(2)}</Text>
                                     
-                                    <DefaultButtonComponent icon='minus'/>
-                                    <Text style={{fontSize: 14, fontWeight: 'bold', marginHorizontal: 8}}>1</Text>
-                                    <DefaultButtonComponent icon='plus'/>
+                                    <DefaultButtonComponent icon='minus' onClick={() => changeQuantity(-1)}/>
+                                    <Text style={{fontSize: 14, fontWeight: 'bold', marginHorizontal: 8}}>{quantity}</Text>
+                                    <DefaultButtonComponent icon='plus' onClick={() => changeQuantity(1)}/>
                                 </View>
                             </View>
 
                             <View style={{flex: 1, alignItems: 'center'}}>
-                                <Image source={{uri: product.img}} height={50} width={50} style={{height: 200, width: 150}} />
+                                <Image source={{uri: product.img}} height={50} width={50} style={{height: 150, width: 150, resizeMode: 'contain'}} />
                             </View>
                         </View>
                         
@@ -83,10 +104,10 @@ export default function ProductInfoPage({route, navigation}: any) {
 
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'}}>
                             <Text style={{fontSize: 24, fontWeight: 'bold'}}>Valor total: </Text>
-                            <Text style={{fontSize: 24, color: '#B3C631'}}>R$ xx,xx</Text>
+                            <Text style={{fontSize: 24, color: '#B3C631'}}>R$ {(quantity * product.price).toFixed(2)}</Text>
                         </View>
 
-                        <ButtonComponent text='Adicionar ao carrinho' backgroundColor='#B3C631'/>
+                        <ButtonComponent text='Adicionar ao carrinho' backgroundColor='#B3C631' onClick={() => console.log('ola')}/>
                     </View>
                 </View>
             </ScrollView>
