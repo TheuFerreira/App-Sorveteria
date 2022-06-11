@@ -1,9 +1,12 @@
 import { useIsFocused } from "@react-navigation/native";
 import { loadAsync } from "expo-font";
-import { useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { FlatList, Text, ToastAndroid, View } from "react-native";
 import CartProduct from "../../models/CartProduct";
+import SaleProductRequests from "../../models/requests/SaleProductRequests";
 import ProductRepository from "../../repositories/ProductRepository";
+import SaleRepository from "../../repositories/SaleRepository";
+import Context from "../../services/ContextService";
 import { getJson, saveJson } from "../../services/storage_service";
 import ButtonComponent from "../components/button_component";
 import LoadingComponent from "../components/loading_component";
@@ -11,6 +14,7 @@ import ItemCardComponent from "./components/item_cart_component";
 
 export default function CartPage() {
 
+    const [usuario, _] : any = useContext(Context);
     const [loaded, setLoaded] = useState(false);
     const [totalValue, setTotalValue] = useState(0);
     const [products, setProducts] = useState(Array<CartProduct>());
@@ -119,6 +123,45 @@ export default function CartPage() {
         }
     }
 
+    const finish = async () => {
+
+        if (tempArr.length == 0) {
+            return;
+        }
+
+        setLoaded(false);
+
+        let finishProducts = Array<SaleProductRequests>();
+        for (let i = 0; i < tempArr.length; i++) {
+            const t = tempArr[i];
+
+            const saleProduct = new SaleProductRequests();
+            saleProduct.id_product = parseInt(t.idProduct);
+            saleProduct.price = t.price;
+            saleProduct.quantity = t.quantity;
+
+            finishProducts.push(saleProduct);
+        }
+
+        const saleRepository = new SaleRepository();
+        const response = await saleRepository.finish(usuario.idUser, finishProducts);
+
+        setLoaded(true);
+
+        let message = 'Houve um problema interno'
+        if (response) {
+            message = 'Pedido finalizado';
+            saveJson(null);
+            setProducts(Array<CartProduct>());
+        }
+
+        ToastAndroid.showWithGravity(
+            message,
+            ToastAndroid.SHORT,
+            ToastAndroid.BOTTOM
+        );
+    }
+
     return (
         <FlatList
             data={products}
@@ -140,7 +183,10 @@ export default function CartPage() {
                             <Text style={{fontWeight: 'bold', fontSize: 16, fontFamily: 'Pulang'}}>Valor total: </Text>
                         </View>
 
-                        <ButtonComponent text='Finalizar pedido' backgroundColor='#B3C631'/>
+                        <ButtonComponent 
+                            text='Finalizar pedido' 
+                            backgroundColor='#B3C631'
+                            onClick={finish}/>
                     </View>
                 );
             }}
