@@ -15,9 +15,9 @@ export default function ItemCardComponent(props: any) {
                     <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 12}}>R${data.price.toFixed(2)}</Text>
 
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                        <DefaultButtonComponent icon='minus' onClick={() => props.minusClick(data.id)}/>
+                        <DefaultButtonComponent icon='minus' onClick={() => props.minusClick(data.idProduct)}/>
                         <Text style={{marginHorizontal: 8}}>{data.quantity}</Text>
-                        <DefaultButtonComponent icon='plus' onClick={() => props.plusClick(data.id)}/>
+                        <DefaultButtonComponent icon='plus' onClick={() => props.plusClick(data.idProduct)}/>
                     </View>
                 </View>
             </View>

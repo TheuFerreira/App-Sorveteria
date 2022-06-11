@@ -1,9 +1,10 @@
+import { useIsFocused } from "@react-navigation/native";
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import CartProduct from "../../models/CartProduct";
 import ProductRepository from "../../repositories/ProductRepository";
-import { getJson } from "../../services/storage_service";
+import { getJson, saveJson } from "../../services/storage_service";
 import ButtonComponent from "../components/button_component";
 import LoadingComponent from "../components/loading_component";
 import ItemCardComponent from "./components/item_cart_component";
@@ -15,9 +16,15 @@ export default function CartPage() {
     const [products, setProducts] = useState(Array<CartProduct>());
     let tempArr = [...products];
 
+    const isFocused = useIsFocused();
+
     useEffect(() => {
+        if (!isFocused) {
+            return;
+        }
+
         loadFonts();
-    }, []);
+    }, [isFocused]);
 
     useEffect(() => {
         let total = 0;
@@ -71,14 +78,13 @@ export default function CartPage() {
         }
 
         setProducts(tempArr);
-        console.log("");
     }
 
     if (!loaded) {
         return <LoadingComponent/>;
     }
 
-    const minusClick = (id: String) => {
+    const minusClick = async (id: String) => {
         for (let i = 0; i < tempArr.length; i++) {
             const product = tempArr[i];
             if (product.idProduct !== id) {
@@ -93,11 +99,12 @@ export default function CartPage() {
             }
 
             setProducts(tempArr);
+            await saveJson(tempArr);
             break;
         }
     }
 
-    const plusClick = (id: String) => {
+    const plusClick = async (id: String) => {
         for (let i = 0; i < tempArr.length; i++) {
             const product = tempArr[i];
             if (product.idProduct !== id) {
@@ -107,6 +114,7 @@ export default function CartPage() {
             product.quantity += 1;
             tempArr[i] = product;
             setProducts(tempArr);
+            await saveJson(tempArr);
             break;
         }
     }
@@ -136,7 +144,13 @@ export default function CartPage() {
                     </View>
                 );
             }}
-            renderItem={({item}) => <ItemCardComponent data={item} minusClick={(id: string) => minusClick(id)} plusClick={(id: string) => plusClick(id)}/>}
+            renderItem={({item}) => 
+                <ItemCardComponent 
+                    data={item} 
+                    minusClick={(id: string) => minusClick(id)} 
+                    plusClick={(id: string) => plusClick(id)}
+                />
+            }
         />
     );
 }
