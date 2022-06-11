@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import DefaultButtonComponent from "../../components/default_button_component";
 
 export default function ItemCardComponent(props: any) {
@@ -8,10 +8,10 @@ export default function ItemCardComponent(props: any) {
             <View style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginRight: 8}}>
                 <View>
                     <Text style={{fontFamily: 'Pulang', fontSize: 15}}>{data.name}</Text>
-                    <Text style={{fontFamily: 'FuturaHandwritten'}}>Descrição</Text>
+                    <Text style={{fontFamily: 'FuturaHandwritten', textAlign: 'justify'}}>{data.description}</Text>
                 </View>
 
-                <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 8}}>
                     <Text style={{fontFamily: 'FuturaHandwritten', fontSize: 12}}>R${data.price.toFixed(2)}</Text>
 
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
@@ -22,7 +22,9 @@ export default function ItemCardComponent(props: any) {
                 </View>
             </View>
 
-            <View style={{height: 70, backgroundColor: 'red', width: 65}}></View>
+            <View style={{height: 70, width: 65}}>
+                <Image source={{uri: data.img}} style={{height: 70, width: 65, resizeMode: 'contain'}}/>
+            </View>
         </View>
     );
 }

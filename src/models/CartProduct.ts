@@ -1,4 +1,8 @@
 export default class CartProduct {
-    idProduct: number = 1;
+    idProduct: string = '1';
+    name: string = '';
+    description: string = '';
+    price: number = 0;
     quantity: number = 1;
+    img: string = '';
 }

@@ -1,23 +1,18 @@
 import { loadAsync } from "expo-font";
 import { useEffect, useState } from "react";
-import { FlatList, Text, TouchableNativeFeedback, View } from "react-native";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { FlatList, Text, View } from "react-native";
+import CartProduct from "../../models/CartProduct";
+import ProductRepository from "../../repositories/ProductRepository";
+import { getJson } from "../../services/storage_service";
 import ButtonComponent from "../components/button_component";
 import LoadingComponent from "../components/loading_component";
 import ItemCardComponent from "./components/item_cart_component";
-
-let _products = [
-    { id: '1', name: 'Açaí 500ML', price: 21.50, quantity: 2 },
-    { id: '2', name: 'Açaí 200ML', price: 13, quantity: 26 },
-    { id: '3', name: 'Açaí 700ML', price: 17, quantity: 3 },
-    { id: '4', name: 'Açaí 200ML', price: 13, quantity: 5 },
-];
 
 export default function CartPage() {
 
     const [loaded, setLoaded] = useState(false);
     const [totalValue, setTotalValue] = useState(0);
-    const [products, setProducts] = useState(_products);
+    const [products, setProducts] = useState(Array<CartProduct>());
     let tempArr = [...products];
 
     useEffect(() => {
@@ -38,12 +33,45 @@ export default function CartPage() {
     }, [products]);
 
     const loadFonts = async () => {
+        setLoaded(false);
+
         await loadAsync({
             Pulang: require('../../../assets/fonts/Pulang.ttf'),
             FuturaHandwritten: require('../../../assets/fonts/FuturaHandwritten.ttf'),
         });
 
+        await loadProducts();
+
         setLoaded(true);
+    }
+
+    const loadProducts = async () => {
+        const values = await getJson();
+        if (values == null) {
+            return;
+        }
+
+        tempArr = new Array<CartProduct>();
+        for (let i = 0; i < values.length; i++) {
+            const value = values[i];
+            const idProduct = parseInt(value.idProduct);
+            
+            const productRepository = new ProductRepository();
+            const prod = await productRepository.getById(idProduct);
+
+            const cartProduct = new CartProduct();
+            cartProduct.idProduct = value.idProduct;
+            cartProduct.name = prod.title;
+            cartProduct.description = prod.description;
+            cartProduct.price = prod.price;
+            cartProduct.quantity = value.quantity;
+            cartProduct.img = prod.img;
+
+            tempArr.push(cartProduct);
+        }
+
+        setProducts(tempArr);
+        console.log("");
     }
 
     if (!loaded) {
@@ -53,7 +81,7 @@ export default function CartPage() {
     const minusClick = (id: String) => {
         for (let i = 0; i < tempArr.length; i++) {
             const product = tempArr[i];
-            if (product.id !== id) {
+            if (product.idProduct !== id) {
                 continue;
             } 
 
@@ -72,7 +100,7 @@ export default function CartPage() {
     const plusClick = (id: String) => {
         for (let i = 0; i < tempArr.length; i++) {
             const product = tempArr[i];
-            if (product.id !== id) {
+            if (product.idProduct !== id) {
                 continue;
             } 
 
@@ -87,18 +115,12 @@ export default function CartPage() {
         <FlatList
             data={products}
             extraData={tempArr}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.idProduct}
             style={{marginHorizontal: 8}}
             ListHeaderComponent={() => {
                 return (
                     <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 8}}>
                         <Text style={{fontFamily: 'Pulang', fontSize: 24}}>Carrinho</Text>
-
-                        <TouchableNativeFeedback>
-                            <View style={{width: 40, height: 40, borderRadius: 20, borderColor: 'black', borderWidth: 2, backgroundColor: '#FF9934', justifyContent: 'center', alignItems: 'center'}}>
-                                <MaterialCommunityIcons name='plus' size={24}/>
-                            </View>
-                        </TouchableNativeFeedback>
                     </View>
                 );
             }}
