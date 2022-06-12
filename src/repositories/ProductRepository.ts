@@ -1,6 +1,6 @@
 import ProductInfoResponse from "../models/responses/ProductInfoResponse";
 import ProductResponse from "../models/responses/ProductResponse";
-import { urlAPI } from "./ConfigRepository";
+import urlAPI from "./ConfigRepository";
 
 export default class ProductRepository {
     async getByCategory(idCategory: number, search: string) : Promise<Array<ProductResponse>> {
@@ -9,7 +9,7 @@ export default class ProductRepository {
             search: search
         }
 
-        const res = await fetch(`${urlAPI}/API-Sorveteria/routes/product/get_by_category.php`, {
+        const res = await fetch(`${await urlAPI()}/API-Sorveteria/routes/product/get_by_category.php`, {
             method: 'POST',
             body: JSON.stringify(data)
         }).then(async (response) => {
@@ -42,7 +42,7 @@ export default class ProductRepository {
             search: search
         }
 
-        const res = await fetch(`${urlAPI}/API-Sorveteria/routes/product/get_all.php`, {
+        const res = await fetch(`${await urlAPI()}/API-Sorveteria/routes/product/get_all.php`, {
             method: 'POST',
             body: JSON.stringify(data)
         }).then(async (response) => {
@@ -75,7 +75,7 @@ export default class ProductRepository {
             id_product: idProduct
         }
 
-        const res = await fetch(`${urlAPI}/API-Sorveteria/routes/product/get_by_id.php`, {
+        const res = await fetch(`${await urlAPI()}/API-Sorveteria/routes/product/get_by_id.php`, {
             method: 'POST',
             body: JSON.stringify(data)
         }).then(async (response) => {
@@ -102,7 +102,7 @@ export default class ProductRepository {
             limit: limit,
         }
 
-        const res = await fetch(`${urlAPI}/API-Sorveteria/routes/product/get_most_selled.php`, {
+        const res = await fetch(`${await urlAPI()}/API-Sorveteria/routes/product/get_most_selled.php`, {
             method: 'POST',
             body: JSON.stringify(data)
         }).then(async (response) => {

@@ -1,1 +1,8 @@
-export const urlAPI = 'http://192.168.1.117';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const urlAPI = async () => {
+    const result = await AsyncStorage.getItem('ip');
+    return result == null ? '' : result;
+}
+
+export default urlAPI;

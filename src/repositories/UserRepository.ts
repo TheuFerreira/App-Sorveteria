@@ -1,6 +1,6 @@
 import LoginResponse from "../models/responses/LoginResponse";
 import RegisterResponse from "../models/responses/RegisterResponse";
-import { urlAPI } from "./ConfigRepository";
+import urlAPI from "./ConfigRepository";
 
 export default class UserRepository {
 
@@ -14,7 +14,7 @@ export default class UserRepository {
             password: password,
         };
 
-        const res = await fetch(`${urlAPI}/API-Sorveteria/routes/user/register_user.php`, {
+        const res = await fetch(`${await urlAPI()}/API-Sorveteria/routes/user/register_user.php`, {
             method: 'POST',
             body: JSON.stringify(body),
         }).then(async (response) => {
@@ -40,7 +40,7 @@ export default class UserRepository {
             password: password
         };
 
-        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/login.php`, {
+        const response = await fetch(`${await urlAPI()}/API-Sorveteria/routes/user/login.php`, {
             method: 'POST',
             body: JSON.stringify(body)
         }).then(async (response) => {
@@ -71,7 +71,7 @@ export default class UserRepository {
             name: name
         };
 
-        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/update_name.php`, {
+        const response = await fetch(`${await urlAPI()}/API-Sorveteria/routes/user/update_name.php`, {
             method: 'POST',
             body: JSON.stringify(data)
         }).then(async (response) => {
@@ -91,7 +91,7 @@ export default class UserRepository {
             user_name: username
         };
 
-        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/update_username.php`, {
+        const response = await fetch(`${await urlAPI()}/API-Sorveteria/routes/user/update_username.php`, {
             method: 'POST',
             body: JSON.stringify(data)
         }).then(async (response) => {
@@ -111,7 +111,7 @@ export default class UserRepository {
             address: address
         };
 
-        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/update_address.php`, {
+        const response = await fetch(`${await urlAPI()}/API-Sorveteria/routes/user/update_address.php`, {
             method: 'POST',
             body: JSON.stringify(data)
         }).then(async (response) => {
@@ -131,7 +131,7 @@ export default class UserRepository {
             cellphone: cellphone
         };
 
-        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/update_cellphone.php`, {
+        const response = await fetch(`${await urlAPI()}/API-Sorveteria/routes/user/update_cellphone.php`, {
             method: 'POST',
             body: JSON.stringify(data)
         }).then(async (response) => {
@@ -151,7 +151,7 @@ export default class UserRepository {
             password: password
         };
 
-        const response = await fetch(`${urlAPI}/API-Sorveteria/routes/user/update_password.php`, {
+        const response = await fetch(`${await urlAPI()}/API-Sorveteria/routes/user/update_password.php`, {
             method: 'POST',
             body: JSON.stringify(data)
         }).then(async (response) => {
