@@ -8,7 +8,7 @@ export default class SaleRepository {
             products: products
         };
 
-        const response = await fetch(`${await urlAPI()}/API-Sorveteria/routes/sale/finish.php`, {
+        const response = await fetch(`${await urlAPI()}/routes/sale/finish.php`, {
             method: 'POST',
             body: JSON.stringify(data)
         }).then(async (res) => {

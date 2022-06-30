@@ -7,7 +7,7 @@ export default class NotificationRepository {
             id_user: idUser,
         };
 
-        const res = await fetch(`${await urlAPI()}/API-Sorveteria/routes/notification/get.php`, {
+        const res = await fetch(`${await urlAPI()}/routes/notification/get.php`, {
             method: 'POST',
             body: JSON.stringify(data)
         }).then(async (response) => {

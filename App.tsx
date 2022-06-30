@@ -12,7 +12,7 @@ import IPContext from './src/services/IPContextService';
 export default function App() {
 
   const [usuario, setUsuario] = React.useState({});
-  const [ip, setIP] = React.useState(null);
+  /*const [ip, setIP] = React.useState(null);
 
   if (ip == null) {
     return (
@@ -30,7 +30,7 @@ export default function App() {
         </SafeAreaProvider>
       </IPContext.Provider>
     );
-  }
+  }*/
 
   return (
     <Context.Provider value={[usuario, setUsuario]}>
