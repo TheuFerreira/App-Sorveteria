@@ -92,6 +92,10 @@ export default function ProductsPage({route, navigation}: any) {
     let windowWidth = Dimensions.get('window').width;
     windowWidth = ((windowWidth - 16 - 16) / 2) - 8;
 
+    const onProduct = (idProduct: any) => {
+        navigation.navigate('ProductInfo', { idProduct });
+    }
+
     const showProducts = () => {
         if (isSearching) {
             return <LoadingComponent/>;
@@ -107,10 +111,12 @@ export default function ProductsPage({route, navigation}: any) {
                     style={{marginHorizontal: 8}}
                     renderItem={({item}) => 
                         <ProductCardComponent 
+                            id={item.idProduct}
                             name={item.title} 
                             price={item.price} 
                             img={item.img}
-                            maxWidth={windowWidth}/>}
+                            maxWidth={windowWidth}
+                            onClick={onProduct}/>}
                 />
             </ScrollView>
         );
